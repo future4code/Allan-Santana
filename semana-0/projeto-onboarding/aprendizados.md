@@ -1,3 +1,3 @@
 
 # Aprendizados da semana
-A semana foi intensa, tivemos diversas palestras sobre diversidade, empregabilidade, rotina e etc. Damos nossos primeiros passos na codificação ao lidarmos com o Git e Github, bem como aprendemos a resolver crimes com a utilzação de códigos em um terminal, rs (não aprendi isso nas aulas de **Direito Penal** e **Perfilamento Criminal**). Agora estamos finalizando nosso primeiro projeto para encerrar nossa semana. 
+A semana foi intensa, tivemos diversas palestras sobre diversidade, empregabilidade, rotina e etc. Damos nossos primeiros passos na codificação ao lidarmos com o Git e Github, bem como aprendemos a "resolver" crimes com a utilzação de códigos em um terminal, rs (não aprendi isso nas aulas de **Direito Penal** e **Perfilamento Criminal**). Agora estamos finalizando nosso primeiro projeto para encerrar nossa semana. 
