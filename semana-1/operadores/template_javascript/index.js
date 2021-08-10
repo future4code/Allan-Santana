@@ -89,18 +89,42 @@ console.log("O valor de", grausCelsius,"Cº em Kelvin é:", conversaoDeFahrenhei
 let quilowattHoraMensal = prompt ("Informe quantos quilowatt-hora foi consumido em determinado mês.")
 valorDoQuilowattHora = 0.05
 let valorDaContaDeLuz = quilowattHoraMensal * valorDoQuilowattHora
-console.log("Nos mês informado, o valor da conta de luza será de R$", valorDaContaDeLuz, ".")
+console.log("No mês informado, o valor da conta de luza será de R$", valorDaContaDeLuz, ".")
 
 // a) Calcule e mostre o valor a ser pago por uma residência que consuma 280 quilowatt-hora
 quilowattHoraMensal = 280
 valorDaContaDeLuz = quilowattHoraMensal * valorDoQuilowattHora
-console.log("a)", valorDaContaDeLuz)
+console.log("a) R$", valorDaContaDeLuz)
 // b) Altere o programa para receber mais um valor: a porcentagem de desconto. Calcule e mostre o valor a ser pago pela mesma residência acima considerando 15% de desconto
 let valorComDesconto = valorDaContaDeLuz * 0.85
-console.log("b)", valorComDesconto)
+console.log("b) R$", valorComDesconto)
 
 //Questão 3: Um grande problema que o mundo tem atualmente é a quantidade de unidades que existem para representar a mesma coisa. Por exemplo, para representar a Massa de um corpo, podemos usar quilograma (kg), onça (oz) e até libra (lb). Para representar Distâncias, existem metro (m), pés (ft), milha (mi). Até para volumes, há várias opções: litro (l), galão (gal),  xícaras (xic). Dada essa introdução, faça o que se pede:
 // a) Procure uma forma de converter libra (lb) para quilograma (kg) e escreva um programa que converta 20lb para kg. Imprima  a resposta no console da seguinte forma: 
-let libraParaGrama = 1 / 0.453592
+let libraParaKilograma = 0.453592
 let pesoEmLibra = 20
-console.log(pesoEmLibra, "Lb equivalem a", pesoEmLibra * libraParaGrama, "kg")
+console.log("Questão a)", pesoEmLibra, "Lb equivalem a", pesoEmLibra * libraParaKilograma, "kg")
+// b) Procure uma forma de converter onça (oz) para quilograma (kg) e escreva um programa que converta 10.5oz para kg. Imprima  a resposta no console da seguinte forma: 
+let ozParaKilograma = 0.0283495
+let pesoEmOz = 10.5
+console.log("Questão b)", pesoEmOz, "oz equivalem a", pesoEmOz * ozParaKilograma, "kg")
+// c) Procure uma forma de converter milha (mi) para metro (m) e escreva um programa que converta 100mi para m. Imprima  a resposta no console da seguinte forma: 
+let milhaParaMetro = 1609.34
+let numeroDeMilhas = 100
+console.log("Questão c)", numeroDeMilhas, "mi equivalem a", numeroDeMilhas * milhaParaMetro, "m")
+// d) Procure uma forma de converter pés (ft) para metro (m) e escreva um programa que converta 50ft para m. Imprima  a resposta no console da seguinte forma: 
+let pesParaMetros = 0.3048
+let numeroDePes = 50
+console.log("Questão d)", numeroDePes, "ft equivalem a", numeroDePes * pesParaMetros, "m")
+// e) Procure uma forma de converter galão (gal) para litro (l) e escreva um programa que converta 103.56gal para litro. Imprima  a resposta no console da seguinte forma: 
+let galaoParaLitros = 3.78541
+let numeroDeLitros = 103.56
+console.log("Questão e)", numeroDeLitros, "gal equivalem a", numeroDeLitros * galaoParaLitros, "l")
+// f) Procure uma forma de converter xícara (xic) para litro (l) e escreva um programa que converta 450xic para litro. Imprima  a resposta no console da seguinte forma: 
+let chicaraParaLitros = 0.24
+let quantidadeDeXicaras = 450
+console.log("Questão f)", quantidadeDeXicaras, "xic equivalem a", quantidadeDeXicaras * chicaraParaLitros, "l")
+// g) Escolha ao menos um dos itens anteriores e modifique o programa para que ele peça ao usuário o valor da unidade original antes de converter
+chicaraParaLitros = 0.24
+quantidadeDeXicaras = prompt ("qual a quantidade de xicaras você quer converter para litros?")
+console.log("Questão g)", quantidadeDeXicaras, "xic equivalem a", quantidadeDeXicaras * chicaraParaLitros, "l")
