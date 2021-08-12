@@ -1,0 +1,6 @@
+let numero1 = prompt ("informe um número inteiro.")
+let numero2 = prompt ("agora digite um segundo número inteiro.")
+console.log("O primeiro número somado ao segundo número resulta em:", Number (numero1) + Number (numero2))
+console.log("O primeiro número multiplicado pelo segundo número resulta em:", Number (numero1) * Number (numero2))
+console.log("FIM")
+console.log(typeof numero1, typeof numero2)
