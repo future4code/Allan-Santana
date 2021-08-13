@@ -132,11 +132,24 @@ console.log(devoRenovar)
 // EXERCÍCIO 14
 function checaAnoBissexto(ano) {
   // implemente sua lógica aqui
-
+  //- **São bissextos** todos os anos múltiplos de 400**.**
+//**São bissextos** todos os múltiplos de 4, exceto se for múltiplo de 100 mas não de 400**.**
+  let multiploDe400 = (ano % 400) === 0
+  let multiploDe4 = (ano % 4 === 0) && !((ano % 100 === 0) && !(multiploDe400))
+  let ehBisexto = multiploDe400 || multiploDe4
+  console.log(ehBisexto)
+return ehBisexto
 }
 
 // EXERCÍCIO 15
 function checaValidadeInscricaoLabenu() {
   // implemente sua lógica aqui
+  let idadeDoUsuario = prompt("Você possui mais de 18 anos?")
+  let ensinoMedioCompleto = prompt("Vocês possui ensino médio completo?")
+  let disponibilidadeDeHorarios = prompt("Você possui disponibilidade exclusiva durante o horário do curso?")
+idadeDoUsuario = idadeDoUsuario.includes("sim")
+ensinoMedioCompleto = ensinoMedioCompleto.includes("sim")
+disponibilidadeDeHorarios = disponibilidadeDeHorarios.includes("sim")
+console.log(idadeDoUsuario && ensinoMedioCompleto && disponibilidadeDeHorarios)
 
 }
