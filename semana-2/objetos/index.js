@@ -108,10 +108,7 @@ console.log("O primeiro filme foi lançado no mesmo ano do segundo?", primeiroFi
 comparacaoDeFilmes(primeiroFilme, segundoFilme)
 //Crie uma função a mais pro exercício 3 de escrita de código. Essa função vai auxiliar o controle de estoque do sacolão: ela deve receber por parâmetro uma das frutas e retornar esse mesmo objeto com a propriedade disponibilidade com o valor invertido. 
 function haMaisDaquelaFruta (aindaHaDisponibilidade) {
-    let disponibilidade = {
-    ...aindaHaDisponibilidade,
-    disponibilidade: !aindaHaDisponibilidade.disponibilidade, 
-    }
-    console.log(disponibilidade)
+    aindaHaDisponibilidade.disponibilidade = !aindaHaDisponibilidade.disponibilidade, 
+    console.log(aindaHaDisponibilidade)
 }
 haMaisDaquelaFruta(uva)
