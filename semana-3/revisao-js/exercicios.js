@@ -22,23 +22,12 @@ function retornaArrayInvertido(array) {
 
 // EXERCÍCIO 03
 function retornaArrayOrdenado(array) {
-  let arrayBackup = array
-  let arrayLength = array.length
-  let ordemCrescente = []
-  let y = 0
-  while(y < array.length){
-  let numero = arrayBackup.shift
-  ordemCrescente.push(menorNumeroDoArray(numero))
-  y++}
-
-  function menorNumeroDoArray(array2){
-    let menorNumero = 0
-  for(i = 0; i < arrayLength.length; i++){
-     if (menorNumero < array2[i])
-     menorNumero = numero
-     }
-     return menorNumero
-    }
+  
+  let ordemCrescente = array.sort(function (a, b){
+      return a - b
+      
+  })
+  return ordemCrescente
   }
 
 // EXERCÍCIO 04
@@ -143,40 +132,15 @@ return "Escaleno"
 
 // EXERCÍCIO 10
 function retornaSegundoMaiorESegundoMenor(array) {
-    let arrayBackup = array
-    let maior = array[0]
-    let menor = array[0]
+
+    let comparar = (a, b) => a > b ? 1 : -1
+
+        let arrayOrdenado = array.sort(comparar)
+        let segundoMenor = arrayOrdenado[1]
+        let segundoMaior = arrayOrdenado[arrayOrdenado.length - 2]
+        return [segundoMaior, segundoMenor]
 
     
-
-    for(i = 0; i < array.length; i++){
-       if (array[i] > maior)
-       maior = array[i]
-       }
-
-    for(i = 0; i < array.length; i++){
-        if (array[i] < menor)
-        menor = array[i]
-        }
-
-    let arrayParaCalcularSegundoMenor = arrayBackup.filter(retirarOMenor(menor))
-
-    let segundoMaior = maior
-    let segundoMenor = menor
-
-    function retirarOMenor (number){
-        let numeroASerRetirado = []
-        if (number !== menor)
-        return number}
-
-    for(i = 0; i < arrayParaCalcularSegundoMenor.length; i++){
-            if (arrayParaCalcularSegundoMenor[i] < segundoMenor)
-            segundoMenor = arrayParaCalcularSegundoMenor[i]
-        }
-
-
-let retorno = [segundoMenor, segundoMaior]
-       return retorno 
 }
 
 // EXERCÍCIO 11
@@ -221,44 +185,29 @@ function retornaPessoasNaoAutorizadas(pessoas) {
 
 // EXERCÍCIO 14
 function retornaContasComSaldoAtualizado(contas){
-let backupDoObjeto = [...contas]
-let arraySpread = [...contas]
 
-for (i = 0; i < contas.length; i++){
-let valoresgastos = backupDoObjeto[i].compras
+let somar = (valor1, valor2) => valor1 + valor2
 
-console.log(valoresgastos)
+contas.forEach(contas => {
 
-let total = 0
+    let gastos = contas.compras.reduce(somar, 0)
 
-for (i = 0; i < valoresgastos.length; i++){
+    contas.saldoTotal -= gastos
 
-let valor = valoresgastos[i]
+    contas.compras = []
+})
 
-total = valor + total
+return contas
 
-}
-
-let saldoEmConta = total - backupDoObjeto[i].saldoTotal
-
-let dadosDoObjeto = {...backupDoObjeto[i], saldoTotal: saldoEmConta, compras:[]}
-
-console.log(dadosDoObjeto)}
-
-return dadosDoObjeto
 }
 
 
 // EXERCÍCIO 15A
 function retornaArrayOrdenadoAlfabeticamente(consultas) {
 
-function comparar(a, b){
-    if(a.nome < b.nome){
-        return -1
-    }
-}
-console.log(consultas)
-comparar(consultas)
+let comparar = (a, b) => a.nome > b.nome ? 1 : -1
+
+return consultas.sort(comparar)
 
 }
 
