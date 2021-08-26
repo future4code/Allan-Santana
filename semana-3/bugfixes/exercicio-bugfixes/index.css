@@ -64,6 +64,12 @@ div img {
     height: 15px;
 }
 
+td button:hover {
+    background-color: #9e861c;
+}
+td button:active{
+    color: white;
+}
 
 /** 
   *
@@ -140,3 +146,4 @@ td button {
 .texto-geral {
     text-align: center;
 }
+
