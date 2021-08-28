@@ -1,0 +1,156 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background-color: black;
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style-type: square;
+}
+
+img {
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: black;
+    width: 500px;
+    height: 500px;
+}
+
+body div {
+background-color: white;
+width: 70%;
+left: 50px;
+margin-left: auto;
+margin-right: auto;
+padding-bottom: 10px;
+margin-top: 0;
+margin-bottom: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+.texto-geral {
+    text-align: justify;
+    padding: 10px 50px;
+    background-color: white;
+    margin: 0;    
+}
+#divisao-de-elementos {
+    border-width:  0;
+    border: black;
+    border-style: solid;
+}
+
+#titulo-geral{
+    border: ;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.botoes-de-navegacao{
+    background-color: rgb(97, 97, 218);
+    color: white;
+    padding: 5px 50px;
+    border: black;
+    border-style: solid;
+    border-width: 1px;
+    margin: 5px 10px 5px 10px;
+    text-align: center;
+}
+
+.botoes-de-navegacao:hover{
+    background-color: rgb(60, 60, 226);
+}
+
+.botoes-de-navegacao:active{
+    background-color: rgb(9, 9, 68);
+    color: black;
+}
+
+#background-dos-botoes-de-navegacao {
+    width: 100%;
+    height: 50px;
+    background-color: rgb(97, 97, 218);
+}
+
+.fundo-das-paginas{
+    background-color: black;
+}
+
+#css-imagem-porcentagem-github{
+    width: 300px;
+    height: 100px;
+    text-align: center;
+    display: block;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#texto-github {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.imagens-formacao-academica{
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    display:inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+#separador {
+border-width: 10px;
+border: black;
+border-style: ridge;
+}
+
+#centralizador{
+    text-align: center;
+}
+
+#imagem-blackjack{
+    height: 200px;
+    width: 200px;
+    display: inline-block;
+}
+
+#imagem-exemplo-blackjack{
+    height: 500px;
+    width: 90%;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+}
+
+#botao-play{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    width: 200px;
+}
+
+#form-contato {
+    padding: 300px 200px;
+    text-align: justify;
+    display: block;
+}
