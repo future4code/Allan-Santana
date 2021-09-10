@@ -14,11 +14,25 @@ class App extends React.Component {
     return (
       <MainContainer>
         <Post
-          nomeUsuario={'paulinha'}
-          fotoUsuario={'https://picsum.photos/50/50'}
-          fotoPost={'https://picsum.photos/200/150'}
+          nomeUsuario={'Paula'}
+          fotoUsuario={'https://picsum.photos/50/50?a=1'}
+          fotoPost={'https://picsum.photos/200/150?a=1'}
         />
+
+        <Post
+          nomeUsuario={'João'}
+          fotoUsuario={'https://picsum.photos/50/50?a=2'}
+          fotoPost={'https://picsum.photos/200/150?a=2'}
+        />
+
+        <Post
+          nomeUsuario={'Maria'}
+          fotoUsuario={'https://picsum.photos/50/50?a=3'}
+          fotoPost={'https://picsum.photos/200/150?a=3'}
+        />
+
       </MainContainer>
+      
     );
   }
 }
