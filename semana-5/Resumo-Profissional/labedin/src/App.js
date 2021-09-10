@@ -1,16 +1,51 @@
 import React from 'react';
-import './App.css';
 import CardGrande from './components/CardGrande/CardGrande';
 import CardPequeno from './components/CardPequeno/CardPequeno';
 import ImagemButton from './components/ImagemButton/ImagemButton';
 import Imagemavatar from './IMG/avatar-beleza.jpg';
 import Imagedodireito from './IMG/direito-civil.jpg';
 import Imagemdalabenu from './IMG/labenu.png';
+import styled from 'styled-components';
+
+const AppStyle = styled.div`
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+`
+
+const PageSectionContainer = styled.div`
+
+  width: 40vw;
+  margin: 10px 0;
+
+  h3 {
+
+    text-align: center;
+    margin-bottom: 20px;
+
+  }
+  
+  h2{
+
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
+  }
+`
+
 
 function App() {
   return (
-    <div className="App">
-      <div className="page-section-container">
+
+    <AppStyle>
+
+      <PageSectionContainer>
         <h2>Dados pessoais</h2>
         <CardGrande 
           imagem={Imagemavatar}
@@ -36,9 +71,9 @@ function App() {
         />
 
         
-      </div>
+      </PageSectionContainer>
 
-      <div className="page-section-container">
+      <PageSectionContainer>
         <h2>Experiências profissionais</h2>
         <CardGrande 
           imagem={Imagedodireito}  
@@ -51,9 +86,9 @@ function App() {
           nome="Labenu" 
           descricao="Estudante do curso Fullstack Web Developer." 
         />
-      </div>
+      </PageSectionContainer>
 
-      <div className="page-section-container">
+      <PageSectionContainer>
         <h2>Minhas redes sociais</h2>
         <ImagemButton 
           imagem="https://d2v9ipibika81v.cloudfront.net/uploads/sites/261/2017/01/facebook-logo-3.png" 
@@ -64,8 +99,9 @@ function App() {
           imagem="https://logodownload.org/wp-content/uploads/2014/09/twitter-logo-1-1.png" 
           texto="Twitter" 
         />        
-      </div>
-    </div>
+      </PageSectionContainer>
+
+    </AppStyle>
   );
 }
 
