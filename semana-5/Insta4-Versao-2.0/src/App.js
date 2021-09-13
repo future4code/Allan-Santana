@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
 import Post from './components/Post/Post';
+import PostsNovos from './components/PostsNovos/PostsNovos';
 
 const MainContainer = styled.div`
   display: flex;
@@ -13,8 +14,25 @@ const StyledNovoPost = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  align-content: center;
-  min-height: 50px;
+  border: 1px solid gray;
+  width: 300px;
+  margin-bottom: 10px;
+  padding: 12px 0;
+  input {
+    width: 90%;
+    margin: 4px 0;
+  }
+  input:nth-child(2) {
+    height: 100px;
+  }
+  input:nth-child(3) {
+    height: 100px;
+  }
+  button {
+    width: 50%;
+    padding: 4px;
+    margin: 12px 0;
+  }
 `
 
 class App extends React.Component {
@@ -35,16 +53,19 @@ class App extends React.Component {
       },
 
       {
-      nomeUsuario:'Maria',
-      fotoUsuario:'https://picsum.photos/50/50?a=3',
-      fotoPost:'https://picsum.photos/200/150?a=3'
-      }
+        nomeUsuario:'Maria',
+        fotoUsuario:'https://picsum.photos/50/50?a=3',
+        fotoPost:'https://picsum.photos/200/150?a=3'
+      },
+    ],
 
+    novosPosts: [
     ],
 
     nomeUsuario:"",
     texto1:"",
     texto2:""
+
 
   };
 
@@ -52,18 +73,21 @@ class App extends React.Component {
 
     const novoPost = {
 
-        nomeUsuario: this.state.valorInputNomeUsuario,
-        texto1: this.state.valorInputTexto1,
-        texto2: this.state.valorInputTexto2
+        nomeUsuario: this.state.nomeUsuario,
+        texto1: this.state.texto1,
+        texto2: this.state.texto2
 
     };
 
-    const novoObjetoPost = [...this.state.post, <StyledNovoPost novoPost/>];
+    const novoObjetoPost = [...this.state.novosPosts, novoPost];
 
-    this.setState({ post: novoObjetoPost });
-
-  };
+    this.setState({ novosPosts: novoObjetoPost });
     
+    this.setState({ nomeUsuario: "", texto1: "", texto2: ""})
+
+    
+  };
+
   onChangeInputNomeUsuario = (event) => {
 
     this.setState({ nomeUsuario: event.target.value });
@@ -88,47 +112,65 @@ class App extends React.Component {
 
       return (
 
+
         <Post 
         {...posts}
         />
-        
+
       );
+
+    })
+
+    const newPost = this.state.novosPosts.map((novosPosts) =>{
+
+      return (
+
+        <PostsNovos
+        {...novosPosts}
+        />
+
+      );
+
     })
 
     return (
+
       <div>
+
         <MainContainer>
 
           {feed}
+          {newPost}
+
+          <StyledNovoPost>
+
+            <input
+
+              value={this.state.nomeUsuario}
+              onChange={this.onChangeInputNomeUsuario}
+              placeholder={"Nome do Usuário"}
+            />
+
+            <input
+
+              value={this.state.texto1}
+              onChange={this.onChangeInputTexto1}
+              placeholder={"Digite o primeiro texto."}
+            />
+
+            <input
+
+            value={this.state.texto2}
+            onChange={this.onChangeInputTexto2}
+            placeholder={"Digite o segundo texto."}
+            />
+
+            <button onClick={this.adicionaNovoPost}>Postar</button>
+
+          </StyledNovoPost>
 
         </MainContainer>
 
-        <StyledNovoPost>
-
-          <input
-
-            value={this.state.valorInputNomeUsuario}
-            onChange={this.onChangeInputNomeUsuario}
-            placeholder={"Nome do Usuário"}
-          />
-
-          <input
-
-            value={this.state.valorInputTexto1}
-            onChange={this.onChangeInputTexto1}
-            placeholder={"Digite o primeiro texto."}
-          />
-
-          <input
-
-          value={this.state.valorInputTexto2}
-          onChange={this.onChangeInputTexto2}
-          placeholder={"Digite o segundo texto."}
-          />
-
-          <button onClick={this.adicionaNovoPost}>Postar</button>
-          
-        </StyledNovoPost>
       </div>
     );
   }

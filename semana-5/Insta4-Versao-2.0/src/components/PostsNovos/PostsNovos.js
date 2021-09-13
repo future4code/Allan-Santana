@@ -7,22 +7,30 @@ import iconeCoracaoBranco from '../../img/favorite-white.svg'
 import iconeCoracaoPreto from '../../img/favorite.svg'
 import iconeComentario from '../../img/comment_icon.svg'
 import {SecaoComentario} from '../SecaoComentario/SecaoComentario'
-import PostsNovos from '../PostsNovos/PostsNovos'
 
 const PostContainer = styled.div`
   border: 1px solid gray;
   width: 300px;
   margin-bottom: 10px;
   min-height: 85px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
 `
-
 
 const PostHeader = styled.div`
   height: 40px;
   display: flex;
   align-items: center;
-  padding-left: 10px;
-  
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 10px;
+  border: solid gray;
+  border-width: 0 0 1px 0;
+  p {
+    text-align: justify;
+  }
 `
 
 const PostFooter = styled.div`
@@ -31,20 +39,25 @@ const PostFooter = styled.div`
   align-items: center;
   padding: 0 10px;
   justify-content: space-between;
+  border: solid gray;
+  border-width: 1px 0 0 0;
 `
 
-const UserPhoto = styled.img`
-  height: 30px;
-  width: 30px;
-  margin-right: 10px;
-  border-radius: 50%;
-`
-
-const PostPhoto = styled.img`
+const PostMainText = styled.div`
   width: 100%;
+  min-height: 200px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  p{
+  padding: 12px 4px;
+  text-align: justify;
+  width: 90%;
+  margin: 0;
+}
 `
 
-class Post extends React.Component {
+class PostsNovos extends React.Component {
   state = {
     curtido: false,
     numeroCurtidas: 0,
@@ -109,38 +122,38 @@ class Post extends React.Component {
       componenteComentario = <SecaoComentario aoEnviar={this.aoEnviarComentario}/>
     }
 
-    return <div>
+    return <PostContainer>
+      <PostHeader>
+        <p>{this.props.nomeUsuario}</p>
+        <p>{this.props.texto1}</p>
+      </PostHeader>
+
+      <PostMainText>
+
+        <p>{this.props.texto2}</p>
+
+      </PostMainText>
+
+      <PostFooter>
+
+        <IconeComContador
+          icone={iconeCurtida}
+          onClickIcone={this.onClickCurtida}
+          valorContador={this.state.numeroCurtidas}
+        />
+
+        <IconeComContador
+          icone={iconeComentario}
+          onClickIcone={this.onClickComentario}
+          valorContador={this.state.numeroComentarios}
+        />
+
+      </PostFooter>
+
+      {componenteComentario}
     
-    <PostContainer>
-
-        <PostHeader>
-          <UserPhoto src={this.props.fotoUsuario} alt={'Imagem do usuario'}/>
-          <p>{this.props.nomeUsuario}</p>
-        </PostHeader>
-
-        <PostPhoto src={this.props.fotoPost} alt={'Imagem do post'}/>
-
-        <PostFooter>
-          <IconeComContador
-            icone={iconeCurtida}
-            onClickIcone={this.onClickCurtida}
-            valorContador={this.state.numeroCurtidas}
-          />
-
-          <IconeComContador
-            icone={iconeComentario}
-            onClickIcone={this.onClickComentario}
-            valorContador={this.state.numeroComentarios}
-          />
-        </PostFooter>
-        {componenteComentario}
-      
-        </PostContainer>
-
-      {PostsNovos}
-
-    </div>
+    </PostContainer>
   }
 }
 
-export default Post
+export default PostsNovos
