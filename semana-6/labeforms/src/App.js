@@ -2,60 +2,103 @@ import React from 'react'
 import styled from 'styled-components';
 import './App.css';
 import Form from './components/Form/Form';
+import FormEnsinoSuperior from './components/Form/FormEnsinoSuperior';
+import FormInformacoesDeEnsino from './components/Form/FormInformacoesDeEnsino';
+import Endpage from './components/Form/Endpage';
 
 const Formulario = styled.div`
-border: 1px solid black;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
 input{
-  /* height: 50px;
-  width: 50px; */
-  margin-bottom: 12px;
+  margin-bottom: 12px; 
 }
 `
+
+
 
 class App extends React.Component {
 
   state = {
     formulario: [
 
-      {<Form />}
+      <Form />
 
     ],
 
     nomeDoUsuario: "",
     idadeDoUsuario: "",
-    emailDoUsuario: ""
+    emailDoUsuario: "",
+    paginaAtual: 1,
+  };
+
+  onClickChangePage = () => {
+
+    this.setState((numeroDaPagina) => {
+      if(numeroDaPagina.paginaAtual == 4){
+
+        alert("O formulário acabou.")
+
+      }else{
+
+      return {
+        paginaAtual: numeroDaPagina.paginaAtual + 1
+      };
+    }
+  });
+
+  };
+
+  paginaDePreenchimento () {
+    switch(this.state.paginaAtual){
+      case 1: return (
+      <Form/>
+      );
+      case 2: return (
+        <FormEnsinoSuperior/>
+      );
+      case 3: return(
+        <FormInformacoesDeEnsino/>
+      );
+      case 4: return(
+
+        <Endpage/>
+
+      )
+    }
+  };
+
+  botaoProximaEtapa = () => {
+
+      if(this.state.paginaAtual == 4){
+
+        console.log("fim")
+
+      }else{
+
+      return (<button onClick={this.onClickChangePage}>Próxima etapa</button>)
+
+      };
   };
 
   render() {
 
-    const formularioAtual = this.state.formulario.map((perguntas) =>{
-
-      return (
-        <Formulario
-        {...perguntas}/>
-
-      );
-
-    })
 
     return (
 
       <Formulario>
+        
+        {this.paginaDePreenchimento()}
 
-        {formularioAtual}
-
-        {/* <img src="https://picsum.photos/400/400?a=7"/> */}
-
-        <button>Próxima etapa</button>
+       {this.botaoProximaEtapa()}
 
       </Formulario>
+
+
+
     );
   }
 }
-
 
 export default App;

@@ -3,20 +3,16 @@ import styled from 'styled-components';
 
 
 const OrganizacaoDosElementos = styled.div`
-border: 1px solid black;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
 padding: 12px;
-width: 100%;
+width: 40%;
+text-align: center;
 
 label{
   margin-bottom: 12px;
-}
-input{
-  /* height: 50px;
-  width: 50px; */
 }
 select{
   margin-bottom: 12px;
@@ -24,22 +20,17 @@ select{
   text-align: center;
   padding: 2px;
 }
-button{
-
-}
 `
 const FormDisposition = styled.div`
 display:flex;
 flex-direction: column;
+justify-content: center;
+align-items: center;
 `
 
 class Form extends React.Component {
 
   state = {
-
-    forms1: [
-
-    ],
 
     nomeDoUsuario: "",
     idadeDoUsuario:"",
@@ -60,19 +51,16 @@ class Form extends React.Component {
 
   }
 
-  onClickCurtida = () => {
+  onChangeInputEmailDoUsuario = (event)=>{
 
-    console.log('Curtiu!')
+    this.setState({emailDoUsuario: event.target.value})
 
-    if(!this.state.curtido){
+  }
 
-      this.onClickSoma()
+  onChangeInputescolaridadeDoUsuario = (event)=>{
 
-    } else{
+    this.setState({escolaridadeDoUsuario: event.target.value})
 
-      this.onClickSubtrai()
-
-    }
   }
 
   render() {
@@ -83,7 +71,7 @@ class Form extends React.Component {
 
       <FormDisposition>
 
-        <label for="escolaridade">Qual a sua escolaridade?</label>
+        <label>1. Qual o seu nome?</label>
 
         <input
 
@@ -96,7 +84,7 @@ class Form extends React.Component {
       </FormDisposition>
       <FormDisposition>
 
-        <label for="escolaridade">Qual a sua escolaridade?</label>
+        <label>2. Qual a sua idade?</label>
 
         <input
 
@@ -108,26 +96,26 @@ class Form extends React.Component {
 
       </FormDisposition>
       <FormDisposition>
-        <label for="escolaridade">Qual a sua escolaridade?</label>
+        <label>3. Qual seu e-mail?</label>
 
         <input
 
         value={this.state.emailDoUsuario}
 
-        onChange={this.onChangeInputemailDoUsuario}
+        onChange={this.onChangeInputEmailDoUsuario}
         placeholder={"Informe seu e-mail."}
         />
 
       </FormDisposition>
       <FormDisposition>
 
-        <label for="escolaridade">Qual a sua escolaridade?</label>
+        <label for="escolaridade">4. Qual a sua escolaridade?</label>
 
         <select name="escolaridade" id="escolaridade">
-          <option value={this.state.ensinoMedioIncompleto}>Ensino Médio Incompleto</option>
-          <option value={this.state.ensinoMedioCompleto}>Ensino Médio Completo</option>
-          <option value={this.state.ensinoSuperiorIncompleto}>Ensino Superior Incompleto</option>
-          <option value={this.state.ensinoSuperiorCompleto}>Ensino Superior Completo</option>
+          <option value={this.state.escolaridadeDoUsuario}>Ensino Médio Incompleto</option>
+          <option value={this.state.escolaridadeDoUsuario}>Ensino Médio Completo</option>
+          <option value={this.state.escolaridadeDoUsuario}>Ensino Superior Incompleto</option>
+          <option value={this.state.escolaridadeDoUsuario}>Ensino Superior Completo</option>
         </select> 
 
       </FormDisposition>
