@@ -18,31 +18,37 @@ const InputsContainer = styled.div`
   gap: 10px;
 `
 
-class App extends React.Component {
-    state = {
-      tarefas: [
-        {
-          id: Date.now(),
-          texto: 'Texto da tarefa',
-          completa: false
-        },
-        {
-          id: Date.now(), 
-          texto: 'Texto da segunda tarefa',
-          completa: true
-        }
-      ],
+export default class App extends React.Component {
+  state = {
+    tarefas: [
+      {
+        id: 1,
+        texto: 'Texto da tarefa',
+        completa: false
+      },
+      {
+        id: 2, 
+        texto: 'Texto da segunda tarefa',
+        completa: true
+      }
+    ],
 
-      inputValue: '',
-      filtro: '',
+    inputValue: '',
+    filtro: '',
 
-    }
+  };
+
+  // componentDidMount = () => {
+
+  //   this.getFromLocalStorage()
+
+  // };
 
   onChangeInput = (event) => {
 
-this.setState({ inputValue: event.target.value});
+    this.setState({ inputValue: event.target.value});
 
-  }
+  };
 
   criaTarefa = () => {
 
@@ -59,11 +65,13 @@ this.setState({ inputValue: event.target.value});
     this.setState({ tarefas: spread })
     this.setState({inputValue: ''})
 
-  }
+  };
 
   selectTarefa = (id) => {
 
-    const novasTarefas = this.state.tarefas.map(tarefa => {
+    console.log("Este é o id", id)
+
+    const novasTarefas = this.state.tarefas.map((tarefa) => {
 
     if (id === tarefa.id ){
 
@@ -87,35 +95,51 @@ this.setState({ inputValue: event.target.value});
 
     this.setState({ tarefas: novasTarefas })
 
-  }
+    console.log(this.state.tarefa)
+
+  };
 
   onChangeFilter = (event) => {
 
     this.setState({ filtro: event.target.value});
 
-  }
-
-  componentDidMount() {
-
-    const formString = window.localStorage.getItem("dadosArmazenados")
-    
-
-    if(formString){
-
-      const form = JSON.parse(formString)
-      console.log("objeto a ser inserido", form)
-
-      this.setState({
-
-      tarefas: this.state.form
-
-      });
-
-    }
-
   };
 
-  componentDidUpdate() {
+  filtroDasTarefas = () => {
+
+    let spread = [...this.state.tarefas]
+
+    const listaFiltrada = spread.filter((tarefa) => {
+    switch (this.state.filtro) {
+      case 'pendentes':
+        return !tarefa.completa
+      case 'completas':
+        return tarefa.completa
+      default:
+        return true
+    }
+  })
+
+  console.log("filtrada", listaFiltrada)
+
+  let listaDeItens = listaFiltrada.map(tarefa => {
+    return (
+
+      <Tarefa
+        completa={tarefa.completa}
+        onClick={() => this.selectTarefa(tarefa.id)}
+      >
+        {tarefa.texto}
+      </Tarefa>
+
+    )
+  })
+
+  return listaDeItens
+
+  }
+
+  componentDidUpdate = () => {
 
     const dadosArmazenados = {
 
@@ -127,22 +151,28 @@ this.setState({ inputValue: event.target.value});
 
     window.localStorage.setItem("dadosArmazenados", JSON.stringify(dadosArmazenados))
 
+  };
+
+  getFromLocalStorage = () => {
+
+    const formString = window.localStorage.getItem("dadosArmazenados")
+
+    console.log("armazenado", formString)
+
+    if(formString){
+
+      const form = JSON.parse(formString)
+
+      console.log("objeto a ser inserido", form)
+
+      this.setState({ tarefas: form })
+
+    }
+
   }
 
+
   render() {
-
-    console.log("teste",this.state)
-
-    const listaFiltrada = this.state.tarefas.filter(tarefa => {
-      switch (this.state.filtro) {
-        case 'pendentes':
-          return !tarefa.completa
-        case 'completas':
-          return tarefa.completa
-        default:
-          return true
-      }
-    })
 
     return (
       <div className="App">
@@ -154,7 +184,6 @@ this.setState({ inputValue: event.target.value});
           />
 
           <button 
-          onClick={this.componentDidUpdate}
           onClick={this.criaTarefa}>Adicionar</button>
         </InputsContainer>
         <br/>
@@ -168,21 +197,10 @@ this.setState({ inputValue: event.target.value});
           </select>
         </InputsContainer>
         <TarefaList>
-          {listaFiltrada.map(tarefa => {
-            return (
-              <Tarefa
-                completa={tarefa.completa}
-                onClick={() => this.selectTarefa(tarefa.id)}
-                
-              >
-                {tarefa.texto}
-              </Tarefa>
-            )
-          })}
+          {this.filtroDasTarefas()}
         </TarefaList>
       </div>
     )
   }
 }
 
-export default App
