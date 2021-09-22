@@ -63,8 +63,6 @@ export default class ListaDeUsuarios extends React.Component {
                         <p>{user.name}</p>
                         <button onClick={() => this.props.removerUsuario(user.id)}>X</button>
 
-                        
-
                     </ItensDaLista>
 
             );

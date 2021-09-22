@@ -17,9 +17,6 @@ export default class App extends React.Component {
   state = {
 
     listaDeUsuarios: [
-      {
-      }
-
     ],
 
     nome: '',
@@ -30,6 +27,23 @@ export default class App extends React.Component {
 
     paginaAtual: 1,
 
+  };
+
+  buscarListaDeUsuarios = () => {
+    axios.get('https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users', {
+        headers:{
+          "Authorization": 'allan-gilber-maryam'
+        }
+
+      }).then((usuarios) => {
+        const novaLista = usuarios.data.map((user) => {
+          return user
+        })
+        this.setState ({ listaDeUsuarios: novaLista})
+
+      }).catch((error) => {
+        alert(error)
+      })
   };
 
   onChangeInputNome = (event) => {
@@ -51,11 +65,9 @@ export default class App extends React.Component {
         "Authorization": 'allan-gilber-maryam'
       }
     }).then(() => {
-      console.log("entrou1")
       alert("Usuário cadastrado!")
+      this.buscarListaDeUsuarios()
     }).catch((error) => {
-      console.log("entrou2")
-      console.log(error.response.data.message)
       alert(error.response.data.message)
     })
     this.setState({ inputNome: '' , inputEmail: ''})
@@ -99,7 +111,6 @@ export default class App extends React.Component {
 
   retirarUsuarioDoServidor = (id) => {
 
-    console.log(id)
     const url = 'https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/' + id
 
     axios.delete( url, {
@@ -110,29 +121,11 @@ export default class App extends React.Component {
       alert("Usuário removido!")
       this.buscarListaDeUsuarios()
     }).catch((error) => {
-      console.log(error)
       alert(error)
     })
   }
 
-  buscarListaDeUsuarios = () => {
-    axios.get('https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users', {
-        headers:{
-          "Authorization": 'allan-gilber-maryam'
-        }
-      }).then((usuarios) => {
-        console.log("lista de ususarios", usuarios)
-        this.setState ({ listaDeUsuarios: usuarios})
-      }).catch((error) => {
-        console.log("entrou232")
-        console.log(error.response.data.message)
-        alert(error.response.data.message)
-      })
-  }
-
   removerUsuario = (id) => {
-
-    console.log("chegou aqui3123", id)
   
     const usuarioASerRemovido = this.state.listaDeUsuarios.filter((elemento) => {
       if (id === elemento.id){
@@ -146,7 +139,6 @@ export default class App extends React.Component {
       return elemento.id
     })
 
-    console.log("este sera removido", idDoUsuarioASerRemovido)
     this.retirarUsuarioDoServidor(idDoUsuarioASerRemovido)
 
   }
@@ -157,28 +149,19 @@ export default class App extends React.Component {
         "Authorization": 'allan-gilber-maryam'
       }
     }).then((response) => {
-      console.log(response)
       this.setState({ listaDeUsuarios: response.data })
     }).catch((error) => {
-      console.log("entrou3")
       alert(error.response.data)
     })
-    console.log("este aqui", this.state.listaDeUsuarios)
   }
 
-  // componentDidUpdate = () => {
+  componentDidUpdate = (prevProps, prevState) => {
 
-  //   const dadosArmazenados = {
+    if (this.state.listaDeUsuarios.length !== prevState.listaDeUsuarios.length){
+      this.buscarListaDeUsuarios()
+    }
 
-  //     ...this.state.tarefas
-
-  //   };
-
-  //   console.log(dadosArmazenados)
-
-  //   window.localStorage.setItem("dadosArmazenados", JSON.stringify(dadosArmazenados))
-
-  // };
+  };
 
 
   render() {
