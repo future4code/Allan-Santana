@@ -56,7 +56,7 @@ export default class App extends React.Component {
 
         <Botao>
 
-          <button onClick = {this.props.botaoDeNavegacao}>Ir para a lista de usuarios cadastrados</button>
+          <button onClick = {() => this.props.botaoDeNavegacao(2)}>Ir para a lista de usuarios cadastrados</button>
 
         </Botao>
 

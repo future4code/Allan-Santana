@@ -85,7 +85,26 @@ const ListaContainer = styled.div`
     min-height: 500px;
 `
 
-export default class UsuarioSelecionado extends React.Component {
+const BotaoDeEdicao = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: auto;
+    button {
+        border: 1px solid blue;
+        width: 70%;
+        padding: 8px;
+        background-color: blue;
+        color: white;
+        font-size: 18px;
+        text-align: center;
+        margin: 12px auto;
+    }
+`
+
+export default class PaginaDoUsuarioSelecionado extends React.Component {
+
     render() {
 
         const usuarioSelecionado = this.props.usuarioEscolhido.map((user) => {
@@ -107,9 +126,18 @@ export default class UsuarioSelecionado extends React.Component {
                             </div>
                         </ContainerPrincipal>
 
-                        <BotaoDeExclusao>
-                            <button onClick={() => this.props.removerUsuario(user)}>Deletar o usuário {this.props.usuarioEscolhido.name}</button>
-                        </BotaoDeExclusao>
+                        <div>
+                        
+                            <BotaoDeEdicao>
+                                <button onClick={() => this.props.editarUsuario(user)}>Editar Usuário</button>
+                            </BotaoDeEdicao>
+
+                            <BotaoDeExclusao>
+                                <button onClick={() => this.props.removerUsuario(user)}>Deletar o usuário {this.props.usuarioEscolhido.name}</button>
+                            </BotaoDeExclusao>
+
+                        </div>
+
 
                     </ItensDaLista>
 
@@ -121,7 +149,7 @@ export default class UsuarioSelecionado extends React.Component {
 
                 <Botao>
 
-                <button onClick = {this.props.botaoDeNavegacao}>Voltar à página com a lista de usuários</button>
+                <button onClick = {() => this.props.botaoDeNavegacao(2)}>Voltar à página com a lista de usuários</button>
 
                 </Botao>
 

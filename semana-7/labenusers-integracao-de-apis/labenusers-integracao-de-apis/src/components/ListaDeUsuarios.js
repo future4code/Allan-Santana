@@ -91,7 +91,7 @@ export default class ListaDeUsuarios extends React.Component {
 
                 <Botao>
 
-                <button onClick = {this.props.botaoDeNavegacao}>Voltar à página de cadastro</button>
+                <button onClick = {() => this.props.botaoDeNavegacao(1)}>Voltar à página de cadastro</button>
 
                 </Botao>
 

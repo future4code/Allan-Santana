@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import React from 'react';
 import ListaDeUsuarios from './components/ListaDeUsuarios';
-import UsuarioSelecionado from './components/UsuarioSelecionado';
-import MainPage from './components/MainPage'
+import MainPage from './components/MainPage';
+import PaginaDoUsuarioSelecionado from "./components/PaginaDoUsuarioSelecionado";
+import PaginaDeEdicaoDoUsuario from "./components/PaginaDeEdicaoDoUsuario";
 import axios from 'axios';
+
 
 const Body = styled.div`
 display: flex;
@@ -24,10 +26,24 @@ export default class App extends React.Component {
 
     inputNome: '',
     inputEmail: '',
+    inputNomeDoUsuarioNaEdicao: '',
+    inputEmailDoUsuarioNaEdicao: '',
 
     paginaAtual: 1,
 
   };
+
+  onChangeInputNomeDoUsuarioNaEdicao = (event) => {
+    this.setState({ inputNomeDoUsuarioNaEdicao: event.target.value});
+  };
+
+  onChangeInputEmailDoUsuarioNaEdicao = (event) => {
+      this.setState({ inputEmailDoUsuarioNaEdicao: event.target.value});
+  };
+
+  editarUsuario = () => {
+    this.setState({ paginaAtual: 4 })
+  }
 
   buscarListaDeUsuarios = () => {
     axios.get('https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users', {
@@ -48,39 +64,6 @@ export default class App extends React.Component {
       })
   };
 
-  // listaComDemaisInformacoes = () =>{
-  //   const idsASeremUsadas = this.state.listaDeUsuarios.map((usuario) =>{
-  //     return usuario.id
-  //   })
-
-  //   const teste = []
-
-  //   const novaLista = idsASeremUsadas.map((usuario) =>{
-  //     const pegarDadosDoUsusario = async () => {
-  //       const response = await axios.get(`https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${usuario}`, {
-  //       headers:{
-  //         "Authorization": 'allan-gilber-maryam'
-  //       }
-  //     })
-  //     return response
-  //   }
-
-  //     this.setState({ listaDeUsuarios: teste})
-  //   })
-  // .then((usuarios) => {
-
-  //   const novaLista = usuarios.data.map((dados) => {
-  //     return dados
-  //   })
-
-  //   console.log(novaLista)
-  //   this.setState ({ listaDeUsuarios: novaLista})
-
-  // }).catch((error) => {
-  //   alert(error)
-  // })
-  // };
-
   onChangeInputNome = (event) => {
     this.setState({ inputNome: event.target.value});
   };
@@ -88,6 +71,73 @@ export default class App extends React.Component {
   onChangeInputEmail = (event) => {
     this.setState({ inputEmail: event.target.value});
   };
+
+  salvarDadosDoUsuario = () => {
+
+    console.log("Usuario escolhido", this.state.usuarioEscolhido[0])
+
+    if((this.state.inputNomeDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].email)){
+
+    const body ={
+      name: this.state.inputNomeDoUsuarioNaEdicao,
+      email: this.state.inputEmailDoUsuarioNaEdicao,
+    }
+    axios.put(`https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${this.state.usuarioEscolhido[0].id}`, body, {
+      headers:{
+        "Authorization": 'allan-gilber-maryam'
+      }
+    }).then(() => {
+      alert(`Os dados do usuário ${this.state.inputNomeDoUsuarioNaEdicao} foram atualizados com sucesso!`)
+      this.buscarListaDeUsuarios()
+      this.telaDoUsuarioSelecionado(this.state.usuarioEscolhido[0])
+    }).catch((error) => {
+      alert(error)
+    })
+      this.setState({ inputNome: '' , inputEmail: ''})
+    } else {
+      alert("Não houve alteração nos dados informados.")
+      this.setState({ paginaAtual: 3 })
+    }
+    if((this.state.inputNomeDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao === this.state.usuarioEscolhido[0].email)){
+
+      const body ={
+        name: this.state.inputNomeDoUsuarioNaEdicao,
+      }
+      axios.put(`https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${this.state.usuarioEscolhido[0].id}`, body, {
+        headers:{
+          "Authorization": 'allan-gilber-maryam'
+        }
+      }).then(() => {
+        alert(`Os dados do usuário ${this.state.inputNomeDoUsuarioNaEdicao} foram atualizados com sucesso!`)
+        this.buscarListaDeUsuarios()
+        this.telaDoUsuarioSelecionado(this.state.usuarioEscolhido[0])
+      }).catch((error) => {
+        alert(error.response.data.message)
+      })
+        this.setState({ inputNome: '' , inputEmail: ''})
+      } if((this.state.inputNomeDoUsuarioNaEdicao === this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].email)){
+
+        const body ={
+          email: this.state.inputEmailDoUsuarioNaEdicao,
+        }
+        axios.put(`https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${this.state.usuarioEscolhido[0].id}`, body, {
+          headers:{
+            "Authorization": 'allan-gilber-maryam'
+          }
+        }).then(() => {
+          alert(`Os dados do usuário ${this.state.inputNomeDoUsuarioNaEdicao} foram atualizados com sucesso!`)
+          this.buscarListaDeUsuarios()
+          this.telaDoUsuarioSelecionado(this.state.usuarioEscolhido[0])
+        }).catch((error) => {
+          alert(error)
+        })
+          this.setState({ inputNome: '' , inputEmail: ''})
+        } 
+      if ((this.state.inputNomeDoUsuarioNaEdicao === this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao === this.state.usuarioEscolhido[0].email)) {
+        alert("Não houve alteração nos dados informados.")
+        this.setState({ paginaAtual: 3 })
+      }
+  }
 
   salvarUsuario = () => {
 
@@ -132,24 +182,38 @@ export default class App extends React.Component {
           telaDoUsuarioSelecionado = {this.telaDoUsuarioSelecionado}
         />
       );
-      case 3: return(
-        <UsuarioSelecionado
+      case 3: return (
+        <PaginaDoUsuarioSelecionado
         usuarioEscolhido = {this.state.usuarioEscolhido}
         listaDeUsuarios = {this.state.listaDeUsuarios}
         removerUsuario = {this.removerUsuario}
         botaoDeNavegacao = {this.botaoDeNavegacao}
-        telaDoUsuarioSelecionado = {this.telaDoUsuarioSelecionado}/>
-      )
+        telaDoUsuarioSelecionado = {this.telaDoUsuarioSelecionado}
+        editarUsuario = {this.editarUsuario}
+        onChangeInputNomeDoUsuarioNaEdicao = {this.onChangeInputNomeDoUsuarioNaEdicao}
+        onChangeInputEmailDoUsuarioNaEdicao = {this.onChangeInputEmailDoUsuarioNaEdicao}
+        />
+      );
+      case 4: return (
+        <PaginaDeEdicaoDoUsuario
+        usuarioEscolhido = {this.state.usuarioEscolhido}
+        listaDeUsuarios = {this.state.listaDeUsuarios}
+        removerUsuario = {this.removerUsuario}
+        botaoDeNavegacao = {this.botaoDeNavegacao}
+        telaDoUsuarioSelecionado = {this.telaDoUsuarioSelecionado}
+        salvarDadosDoUsuario = {this.salvarDadosDoUsuario}
+        inputNomeDoUsuarioNaEdicao = {this.inputNomeDoUsuarioNaEdicao}
+        inputEmailDoUsuarioNaEdicao = {this.inputEmailDoUsuarioNaEdicao}
+        onChangeInputNomeDoUsuarioNaEdicao = {this.onChangeInputNomeDoUsuarioNaEdicao}
+        onChangeInputEmailDoUsuarioNaEdicao = {this.onChangeInputEmailDoUsuarioNaEdicao}
+        />
+      );
     }
   };
 
-  botaoDeNavegacao = () => {
+  botaoDeNavegacao = (number) => {
 
-    if (this.state.paginaAtual === 1){
-      this.setState({ paginaAtual: this.state.paginaAtual + 1 })
-    } else{
-      this.setState({ paginaAtual: this.state.paginaAtual - 1 })
-    }
+    this.setState({ paginaAtual: number })
 
   };
 
@@ -208,9 +272,6 @@ export default class App extends React.Component {
     if (this.state.listaDeUsuarios.length !== prevState.listaDeUsuarios.length){
       this.buscarListaDeUsuarios()
     }
-    // else if (this.state.usuarioEscolhido.length !== prevState.usuarioEscolhido.length){
-    //   this.telaDoUsuarioSelecionado()
-    // }
 
   };
 
@@ -233,6 +294,7 @@ export default class App extends React.Component {
     this.setState({ usuarioEscolhido: [ teste ] })
 
     this.setState({ paginaAtual: 3 })
+    console.log(this.state.paginaAtual)
   } 
 
   render() {
