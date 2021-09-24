@@ -60,14 +60,21 @@ const ListaContainer = styled.div`
     text-align: center;
     padding: 12px;
     background-color: white;
+
+    input{
+        width: 90%;
+        min-height: 20px;
+        margin: 12px auto;
+        
+    }
 `
 
 export default class ListaDeUsuarios extends React.Component {
     render() {
 
-        console.log("Este daqui 555", this.props.listaDeUsuarios)
-
-        const listaDeUsuariosCadastrados = this.props.listaDeUsuarios.map((user) => {
+        const listaDeUsuariosCadastrados = this.props.listaDeUsuarios.filter((user) =>{
+            return user.name.toLowerCase().includes(this.props.busca.toLowerCase())
+        }).map((user) => {
             return (
 
                     <ItensDaLista>
@@ -98,6 +105,12 @@ export default class ListaDeUsuarios extends React.Component {
                 <ListaContainer>
 
                     <h1>Usuários Cadastrados:</h1>
+
+                    <input
+                    placeholder= "Insira os termos da busca"
+                    value={this.props.busca}
+                    onChange={this.props.onChangeInputBusca}
+                    />
 
                     {listaDeUsuariosCadastrados}
 

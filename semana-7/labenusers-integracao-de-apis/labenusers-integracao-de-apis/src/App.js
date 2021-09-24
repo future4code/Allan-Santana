@@ -28,6 +28,7 @@ export default class App extends React.Component {
     inputEmail: '',
     inputNomeDoUsuarioNaEdicao: '',
     inputEmailDoUsuarioNaEdicao: '',
+    busca: '',
 
     paginaAtual: 1,
 
@@ -68,15 +69,17 @@ export default class App extends React.Component {
     this.setState({ inputNome: event.target.value});
   };
 
+  onChangeInputBusca = (event) => {
+    this.setState({ busca: event.target.value});
+  };
+
   onChangeInputEmail = (event) => {
     this.setState({ inputEmail: event.target.value});
   };
 
   salvarDadosDoUsuario = () => {
 
-    console.log("Usuario escolhido", this.state.usuarioEscolhido[0])
-
-    if((this.state.inputNomeDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].email)){
+    if(((this.state.inputNomeDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].email)) && (this.state.inputEmailDoUsuarioNaEdicao && this.state.inputNomeDoUsuarioNaEdicao)){
 
     const body ={
       name: this.state.inputNomeDoUsuarioNaEdicao,
@@ -98,7 +101,7 @@ export default class App extends React.Component {
       alert("Não houve alteração nos dados informados.")
       this.setState({ paginaAtual: 3 })
     }
-    if((this.state.inputNomeDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao === this.state.usuarioEscolhido[0].email)){
+    if(((this.state.inputNomeDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao === this.state.usuarioEscolhido[0].email)) && (this.state.inputNomeDoUsuarioNaEdicao)) {
 
       const body ={
         name: this.state.inputNomeDoUsuarioNaEdicao,
@@ -115,7 +118,7 @@ export default class App extends React.Component {
         alert(error.response.data.message)
       })
         this.setState({ inputNome: '' , inputEmail: ''})
-      } if((this.state.inputNomeDoUsuarioNaEdicao === this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].email)){
+      } if(((this.state.inputNomeDoUsuarioNaEdicao === this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].email)) && (this.state.inputEmailDoUsuarioNaEdicao)){
 
         const body ={
           email: this.state.inputEmailDoUsuarioNaEdicao,
@@ -180,6 +183,8 @@ export default class App extends React.Component {
           botaoDeNavegacao = {this.botaoDeNavegacao}
           removerUsuario = {this.removerUsuario}
           telaDoUsuarioSelecionado = {this.telaDoUsuarioSelecionado}
+          busca = {this.state.busca}
+          onChangeInputBusca = {this.onChangeInputBusca}
         />
       );
       case 3: return (
@@ -289,12 +294,9 @@ export default class App extends React.Component {
     
     const teste = await this.pegarDadosDoUsuario(user)
     
-
-    console.log("este daqui 21312", teste)
     this.setState({ usuarioEscolhido: [ teste ] })
 
     this.setState({ paginaAtual: 3 })
-    console.log(this.state.paginaAtual)
   } 
 
   render() {
