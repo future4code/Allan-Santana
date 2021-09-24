@@ -4,10 +4,10 @@ import React from 'react';
 const Body = styled.div`
 display: flex;
 flex-direction: column;
-justify-content: center;
 align-items: center;
-width: 100vw;
-/* height: 100vh; */
+min-width: 100vw;
+background-color: darkgray;
+min-height: 100vh;
 `;
 
 const FormContainer = styled.div`
@@ -18,10 +18,15 @@ min-width: 250px;
 border: 1px solid black;
 display: flex;
 flex-direction: column;
-/* justify-content: ; */
 align-items: center;
 margin: 20px auto;
-/* padding: 20px 12px; */`;
+background-color: white;
+button{
+  background-color: darkblue;
+  color: white;
+  border-radius: 25px;
+  padding: 8px;
+}`;
 
 const Forms = styled.div`
 display: flex;
@@ -36,6 +41,9 @@ width: 100%;
 height: 50px;
 padding: 8px 12px;
 button{
+  background-color: darkblue;
+  color: white;
+  border-radius: 25px;
   padding: 8px;
 }`;
 

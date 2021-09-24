@@ -4,10 +4,10 @@ import styled from "styled-components";
 const Body = styled.div`
 display: flex;
 flex-direction: column;
-justify-content: center;
 align-items: center;
-width: 100vw;
-/* height: 100vh; */
+min-width: 100vw;
+background-color: darkgray;
+min-height: 100vh;
 `;
 
 const Botao = styled.div`
@@ -15,24 +15,27 @@ width: 100%;
 height: 50px;
 padding: 8px 12px;
 button{
+    background-color: darkblue;
+    color: white;
+    border-radius: 25px;
     padding: 8px;
 }`;
 
 const ItensDaLista = styled.div`
-width: 100%;
+width: 90%;
 height: 50px;
-/* padding: 8px 12px; */
 display: flex;
 text-align: center;
 align-items: center;
+justify-content: space-between;
 border-width: 0 0 2px 0;
 border-style: solid;
 border-color: black;
-p{
-    width: 70%;
-    text-align: left;
-    font-size: 18px;
-}
+background-color: white;
+padding: 12px;
+`;
+
+const BotaoDeExcluirUsuario = styled.div`
 button{
     width: 30%;
     padding: 8px;
@@ -40,28 +43,42 @@ button{
     border: none;
     color: red;
     font-size: 18px;
-    display: flex;
-    justify-content: flex-end;
-}`;
+    align-items: center;
+}
+`
+
+const NomeDoUsuario = styled.div`
+    width: 70%;
+    text-align: left;
+    font-size: 18px;
+`
 
 const ListaContainer = styled.div`
-    width: 30%;
+    width: 40%;
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding: 12px;
+    background-color: white;
 `
 
 export default class ListaDeUsuarios extends React.Component {
     render() {
 
+        console.log("Este daqui 555", this.props.listaDeUsuarios)
+
         const listaDeUsuariosCadastrados = this.props.listaDeUsuarios.map((user) => {
-            console.log(user)
             return (
 
                     <ItensDaLista>
 
-                        <p>{user.name}</p>
-                        <button onClick={() => this.props.removerUsuario(user.id)}>X</button>
+                        <NomeDoUsuario onClick={() => this.props.telaDoUsuarioSelecionado(user)}>
+                            <p>{user.name}</p>
+                        </NomeDoUsuario>
+
+                        <BotaoDeExcluirUsuario>
+                            <button onClick={() => this.props.removerUsuario(user)}>X</button>
+                        </BotaoDeExcluirUsuario>
 
                     </ItensDaLista>
 
