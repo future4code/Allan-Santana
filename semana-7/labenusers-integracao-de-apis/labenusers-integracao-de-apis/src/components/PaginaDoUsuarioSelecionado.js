@@ -31,7 +31,6 @@ const ContainerPrincipal = styled.div`
     }
 `
 
-
 const ItensDaLista = styled.div`
     width: 90%;
     min-height: 50px;

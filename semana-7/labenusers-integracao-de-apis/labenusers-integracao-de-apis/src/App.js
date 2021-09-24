@@ -79,51 +79,19 @@ export default class App extends React.Component {
 
   salvarDadosDoUsuario = () => {
 
-    if(((this.state.inputNomeDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].email)) && (this.state.inputEmailDoUsuarioNaEdicao && this.state.inputNomeDoUsuarioNaEdicao)){
-
-    const body ={
-      name: this.state.inputNomeDoUsuarioNaEdicao,
-      email: this.state.inputEmailDoUsuarioNaEdicao,
+    let body = {
     }
-    axios.put(`https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${this.state.usuarioEscolhido[0].id}`, body, {
-      headers:{
-        "Authorization": 'allan-gilber-maryam'
-      }
-    }).then(() => {
-      alert(`Os dados do usuário ${this.state.inputNomeDoUsuarioNaEdicao} foram atualizados com sucesso!`)
-      this.buscarListaDeUsuarios()
-      this.telaDoUsuarioSelecionado(this.state.usuarioEscolhido[0])
-    }).catch((error) => {
-      alert(error)
-    })
-      this.setState({ inputNome: '' , inputEmail: ''})
-    } else {
-      alert("Não houve alteração nos dados informados.")
-      this.setState({ paginaAtual: 3 })
-    }
-    if(((this.state.inputNomeDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao === this.state.usuarioEscolhido[0].email)) && (this.state.inputNomeDoUsuarioNaEdicao)) {
 
-      const body ={
-        name: this.state.inputNomeDoUsuarioNaEdicao,
-      }
+    if((this.state.inputNomeDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].name) && (this.state.inputNomeDoUsuarioNaEdicao)){
+      body.name = this.state.inputNomeDoUsuarioNaEdicao
+
+    } if((this.state.inputEmailDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].email) && (this.state.inputEmailDoUsuarioNaEdicao)){
+      body.email = this.state.inputEmailDoUsuarioNaEdicao
+    }
+
+    if (body){
+
       axios.put(`https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${this.state.usuarioEscolhido[0].id}`, body, {
-        headers:{
-          "Authorization": 'allan-gilber-maryam'
-        }
-      }).then(() => {
-        alert(`Os dados do usuário ${this.state.inputNomeDoUsuarioNaEdicao} foram atualizados com sucesso!`)
-        this.buscarListaDeUsuarios()
-        this.telaDoUsuarioSelecionado(this.state.usuarioEscolhido[0])
-      }).catch((error) => {
-        alert(error.response.data.message)
-      })
-        this.setState({ inputNome: '' , inputEmail: ''})
-      } if(((this.state.inputNomeDoUsuarioNaEdicao === this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao !== this.state.usuarioEscolhido[0].email)) && (this.state.inputEmailDoUsuarioNaEdicao)){
-
-        const body ={
-          email: this.state.inputEmailDoUsuarioNaEdicao,
-        }
-        axios.put(`https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${this.state.usuarioEscolhido[0].id}`, body, {
           headers:{
             "Authorization": 'allan-gilber-maryam'
           }
@@ -135,12 +103,13 @@ export default class App extends React.Component {
           alert(error)
         })
           this.setState({ inputNome: '' , inputEmail: ''})
-        } 
-      if ((this.state.inputNomeDoUsuarioNaEdicao === this.state.usuarioEscolhido[0].name) && (this.state.inputEmailDoUsuarioNaEdicao === this.state.usuarioEscolhido[0].email)) {
-        alert("Não houve alteração nos dados informados.")
-        this.setState({ paginaAtual: 3 })
-      }
-  }
+
+    } else {
+      alert("Não houve alteração nos dados informados.")
+      this.setState({ paginaAtual: 3 })
+    }
+  };
+
 
   salvarUsuario = () => {
 
@@ -195,6 +164,8 @@ export default class App extends React.Component {
         botaoDeNavegacao = {this.botaoDeNavegacao}
         telaDoUsuarioSelecionado = {this.telaDoUsuarioSelecionado}
         editarUsuario = {this.editarUsuario}
+        inputNomeDoUsuarioNaEdicao = {this.inputNomeDoUsuarioNaEdicao}
+        inputEmailDoUsuarioNaEdicao = {this.inputEmailDoUsuarioNaEdicao}
         onChangeInputNomeDoUsuarioNaEdicao = {this.onChangeInputNomeDoUsuarioNaEdicao}
         onChangeInputEmailDoUsuarioNaEdicao = {this.onChangeInputEmailDoUsuarioNaEdicao}
         />
