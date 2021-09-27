@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const ContainerBusca = styled.div`
 width: 40%;
-min-height: 20%;
+min-height: 100vh;
 display: flex;
 flex-direction: column;
 background-color: gray;

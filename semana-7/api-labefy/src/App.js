@@ -7,8 +7,8 @@ import DetalhesDaPlaylistSelecionada from './components/DetalhesDaPlaylistSeleci
 
 const ContainerPrincipal = styled.div`
 background-color: #202124;
-height: 100vh;
-width: 100vw;
+min-height: 100vh;
+min-width: 100vw;
 display: flex;
 flex-direction: column;
 align-items: center;`
@@ -21,7 +21,22 @@ export default class App extends React.Component {
     listaDePlaylists: '',
     numeroDaPagina: 1,
     playlistSelecionada: null,
+    inputNomeDaMusica: '',
+    inputNomeDoArtistaOuBanda: '',
+    inputLinkDoArquivoDeAudio:'',
 
+};
+
+onChangeInputNomeDaMusica = (event) => {
+  this.setState({ inputNomeDaMusica: event.target.value});
+};
+
+onChangeInputNomeDoArtistaOuBanda = (event) => {
+  this.setState({ inputNomeDoArtistaOuBanda: event.target.value});
+};
+
+onChangeInputLinkDoArquivoDeAudio = (event) => {
+  this.setState({ inputLinkDoArquivoDeAudio: event.target.value});
 };
 
 onChangeInputBusca = (event) => {
@@ -40,6 +55,28 @@ componentDidUpdate = (prevProps, prevState) => {
 
   };
 
+  salvarNovaMusica = () => {
+    const body = {
+      name: this.state.inputNomeDaMusica,
+      artist: this.state.inputNomeDoArtistaOuBanda,
+      url: this.state.inputLinkDoArquivoDeAudio,
+    }
+    axios.post(`https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists/${this.state.playlistSelecionada[0].id}/tracks`, body, {
+      headers: {
+        Authorization: "allan-gilber-maryam"
+        }
+    }).then((response) =>{
+      this.setState({ inputNomeDaMusica: ''})
+      this.setState({ inputNomeDoArtistaOuBanda: ''})
+      this.setState({ inputLinkDoArquivoDeAudio: ''})
+      this.telaDaPlaylistSelecionada(this.state.playlistSelecionada[0])
+
+    }).catch((error) =>{
+      alert(error)
+    })
+
+  }
+
   buscarListaDePlaylists = () =>{
 
     axios.get(`https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists`, {
@@ -47,12 +84,10 @@ componentDidUpdate = (prevProps, prevState) => {
         Authorization: "allan-gilber-maryam"
         }
     }).then((response) => {
-        console.log(response.data.result.list)
         let playlistsRecebidas = response.data.result.list.map((playlist) => {
                 return playlist
         })
         this.setState({listaDePlaylists: playlistsRecebidas})
-        console.log("este", this.state.listaDePlaylists)
         }).catch((error) => {
         alert(error)
         })
@@ -80,27 +115,22 @@ componentDidUpdate = (prevProps, prevState) => {
       }
     }
 
-    // removeTrack = (music) => {
+    removeTrack = (musica) => {
 
-    //   if(window.confirm(`Tem certeza que você deseja remover a música ${music.name}?`)){
-  
-    //     const idDaPlaylistASerRemovida = this.state.listaDePlaylists.filter((elemento) => {
-    //       if (playlist.id === elemento.id){
-    //         return elemento.id
-    //       } else {
-    //         return false
-    //       }
-    //     })
-  
-    //     const idDaPlaylistASerRemovida = playlistASerRemovida.map((elemento) => {
-    //       return elemento.id
-    //     })
-  
-    //     this.retirarPlaylistDoServidor(idDaPlaylistASerRemovida)
-    //   } else{
-    //     alert("Ação cancelada!")
-    //   }
-    // }
+      if(window.confirm(`Tem certeza que você deseja remover a música ${musica.name}?`)){
+        axios.delete(`https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists/${this.state.playlistSelecionada[0].id}/tracks/${musica.id}`, {
+        headers: {
+        Authorization: "allan-gilber-maryam"
+        }
+    }).then((response) => {
+        this.telaDaPlaylistSelecionada(this.state.playlistSelecionada[0])
+        }).catch((error) => {
+        alert(error)
+        })
+      } else{
+        alert("Ação cancelada!")
+      }
+    }
 
     retirarPlaylistDoServidor = (id) => {
 
@@ -130,8 +160,6 @@ componentDidUpdate = (prevProps, prevState) => {
           Authorization: "allan-gilber-maryam"
           }
       }).then((response) => {
-
-        console.log(response)
         alert("Playlist criada!")
         this.setState({ playlistASerCriada: '' })
         this.buscarListaDePlaylists()
@@ -148,12 +176,10 @@ componentDidUpdate = (prevProps, prevState) => {
         Authorization: "allan-gilber-maryam"
         }
     }).then((response) => {
-        console.log(response.data.result.list)
         let playlistsRecebidas = response.data.result.list.map((playlist) => {
                 return playlist
         })
         this.setState({listaDePlaylists: playlistsRecebidas})
-        console.log("este", this.state.listaDePlaylists)
         }).catch((error) => {
         alert(error)
         })
@@ -166,13 +192,7 @@ componentDidUpdate = (prevProps, prevState) => {
     telaDaPlaylistSelecionada = async (playlist) =>{
 
       const dadosDaPlaylist = await this.pegarDadosDaPlaylist(playlist)
-      
-      console.log("o servidor retornou", dadosDaPlaylist)
-      // const newplaylist = playlist
-      // const novaPlaylist = [...newplaylist, dadosDaPlaylist ]
-      // console.log("esta é o spread", novaPlaylist)
       this.setState({ playlistSelecionada: dadosDaPlaylist })
-      console.log("essa é a nova playlist", this.state.playlistSelecionada)
 
       this.setState({ numeroDaPagina: 3 })
     } 
@@ -190,17 +210,23 @@ componentDidUpdate = (prevProps, prevState) => {
           }
         })
       ]).then(axios.spread((response1, response2) => {
-        console.log("este daqui21312", response1, "este", response2)
         let responseResult = response1.data.result.playlist
         responseResult.tracks = response2.data.result.tracks
-        console.log("primeira resposta", response1.data.result.playlist)
-        console.log("segunda resposta", response2.data.result.tracks)
-        console.log("spread", responseResult)
         let resultadoFinal = responseResult
         return resultadoFinal
       }))
         return response
       }
+
+      posicaoDaMusica = (musica) =>{
+
+        let index = this.state.playlistSelecionada.tracks.findIndex(x => x.name === musica.name)
+
+        return index + 1
+
+
+
+      };
 
     paginaAtual = () => {
       switch(this.state.numeroDaPagina){
@@ -227,6 +253,7 @@ componentDidUpdate = (prevProps, prevState) => {
             paginaAtual = {this.paginaAtual}
             trocarPagina = {this.trocarPagina}
             telaDaPlaylistSelecionada = {this.telaDaPlaylistSelecionada}
+            removerPlaylist = {this.removerPlaylist}
             />
         );
         case 3: return (
@@ -234,8 +261,15 @@ componentDidUpdate = (prevProps, prevState) => {
           removerPlaylist = {this.removerPlaylist}
           playlistSelecionada = {this.state.playlistSelecionada}
           trocarPagina = {this.trocarPagina}
-          />
-          
+          inputNomeDaMusica= {this.state.inputNomeDaMusica}
+          inputNomeDoArtistaOuBanda={this.state.inputNomeDoArtistaOuBanda}
+          inputLinkDoArquivoDeAudio={this.state.inputLinkDoArquivoDeAudio}
+          onChangeInputNomeDaMusica = {this.onChangeInputNomeDaMusica}
+          onChangeInputNomeDoArtistaOuBanda = {this.onChangeInputNomeDoArtistaOuBanda}
+          onChangeInputLinkDoArquivoDeAudio = {this.onChangeInputLinkDoArquivoDeAudio}
+          salvarNovaMusica = {this.salvarNovaMusica}
+          removeTrack = {this.removeTrack}
+          posicaoDaMusica = {this.posicaoDaMusica}/>
         );
       }
     }

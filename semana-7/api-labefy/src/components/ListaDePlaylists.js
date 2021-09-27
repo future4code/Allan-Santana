@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ContainerDasPlaylists = styled.div`
+    box-sizing: border-box;
     width: 40%;
-    min-height: 50vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: gray;
@@ -11,6 +12,8 @@ const ContainerDasPlaylists = styled.div`
     align-items: center;
     padding: 12px;
     h3{
+        border: solid black;
+        border-width: 0 0 2px 0;
         background-color: white;
         text-align: center;
         justify-content: center;
@@ -29,22 +32,16 @@ const ContainerDasPlaylists = styled.div`
         color: white;
         border: none;
         margin: 8px auto;
-        width: 40%;
-        border-radius: 10px;
-        height: 30px;
-    }
-    button{
-        background-color: blue;
-        color: white;
-        border: none;
-        margin: 8px auto;
-        width: 40%;
-        border-radius: 10px;
+        padding: 8px auto;
         min-height: 50px;
+        border-radius: 10px;
+        text-align: center;
+        width: 40%;
     }
 `
 
 const ItemDaLista = styled.div`
+    box-sizing: border-box;
     width: 90%;
     height: 50px;
     display: flex;
@@ -77,7 +74,6 @@ button{
 
 export default class ListaDePlaylists extends React.Component {
 
-    //  onClick={() => this.props.telaDoUsuarioSelecionado(user)
     render() {
 
         const listaDePlaylists = this.props.listaDePlaylists.map((playlist) => {
