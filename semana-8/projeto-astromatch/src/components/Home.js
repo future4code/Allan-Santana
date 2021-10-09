@@ -1,67 +1,23 @@
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
-import styled from 'styled-components';
 import Blackheart from '../img/blackheart.png';
 import Whiteheart from '../img/whiteheart.png';
 import ReturnIcon from '../img/returnIcon.png';
-import ListOfUsersIcon from '../img/listOfUsersIcon.png';
+import RejectIconBw from '../img/rejectIconBW.png';
+import RejectIconColored from '../img/rejectIconColored.png';
+import ListOfUsersIconBW from '../img/listOfUsersIconBW.png';
+import ListOfUsersIconColored from '../img/listOfUsersIconColored.png';
+import ListOfMatchs from './ListOfMatchs';
+import {ButtonsDisposition, Header, PhotoStyle, CurrentProfileContainer, ActualProfile} from './Constants';
 
-const CurrentProfileContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 300px;
-    min-height: 500px;
-    /* width: 50%;
-    height: 75%; */
-    width: 50%;
-    height: 75%;
-    background-color: white;
-    /* min-height: 50vh;
-    min-width: 25vw; */
-`
-const Header = styled.div`
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
-    img{
-        max-width: 50px;
-        max-height: 60px;
-        width: 100%;
-        height: 100%;
-    }
-`
-const PhotoStyle = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-img{
-    max-height: 60%;
-    width: 90%;
-}
-`
-
-const ButtonsDisposition = styled.div`
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    img{
-        max-height: 50px;
-        max-width: 60px;
-        height: 100%;
-        width: 100%;
-    }
-`
-
-const Home = (props) => {
+const Home = () => {
 
     const [currentPage, updateCurrentPage] = useState("home")
-    const [heartImg, updateHeartImg] = useState({Whiteheart})
+    const [heartImg, updateHeartImg] = useState("Whiteheart")
+    const [rejectImg, updateRejectImg] = useState("RejectIconBw")
+    const [listIconImg, updatelistIconImg] = useState("listOfUsersIconBW")
     const [user, setUser] = useState("testUser")
+    const [listOfMatchs, updateListOfMatchs] = useState({});
     const [profile, updateProfile] = useState({
         id: '',
         age: '',
@@ -70,12 +26,40 @@ const Home = (props) => {
         bio: '',
     })
 
+    function returnMatchIcon(){
+        if (heartImg === "Whiteheart"){
+            return Whiteheart
+        } else{
+            return Blackheart
+        }
+    }
+
+    function returnRejectIcon(){
+        if (rejectImg === "RejectIconBw"){
+            return RejectIconBw
+        } else{
+            return RejectIconColored
+        }
+
+    }
+
+    function returnListIcon(){
+        if (listIconImg === "listOfUsersIconBW"){
+            return ListOfUsersIconBW
+        } else{
+            return ListOfUsersIconColored
+        }
+
+    }
+
     function iconOfTheHeader (){
         if(currentPage === 'home'){
             return(
                 <img 
                 onClick={() => changeBetweenHomeAndListOfMatchs('listOfMatchs')} 
-                src={ListOfUsersIcon}
+                src={returnListIcon()} 
+                onMouseOver={() => updatelistIconImg("listOfUsersIconColored")} 
+                onMouseOut={() => updatelistIconImg("listOfUsersIconBW")}
                 />
             )
         } else{
@@ -94,16 +78,6 @@ const Home = (props) => {
     
     }
 
-    function profileBio(){
-
-        return (
-            <div>
-                <strong>{profile.name}</strong> + ", " + <p>{profile.bio}</p>
-            </div>
-        )
-        
-    };
-
     function getProfile(){
         axios
         .get(`https://us-central1-missao-newton.cloudfunctions.net/astroMatch/${user}/person`)
@@ -115,6 +89,20 @@ const Home = (props) => {
             console.log(err)
         });
     }
+
+    function getMatches(){
+        axios
+        .get(`https://us-central1-missao-newton.cloudfunctions.net/astroMatch/${user}/matches`)
+        .then( response => {
+            console.log(response, "esse daq")
+            updateListOfMatchs(response.data.matches)
+        })
+        .catch(err => {
+            console.log(err)
+        });
+    }
+
+    useEffect(() => {getMatches()}, [])
 
     function matchThePerson(boolean) {
         const body = {
@@ -179,7 +167,7 @@ const Home = (props) => {
     function renderizePage(){
         switch(currentPage){
             case "home": return (
-                    <div>
+                    <ActualProfile>
 
                         <Header>
                             <h3>AstroMatch 2.0</h3>
@@ -188,57 +176,36 @@ const Home = (props) => {
 
                         <PhotoStyle>
                             <img src={profile.photo} alt="Profile Photo"/>
-                            {profileBio}
+                            {/* <p><strong>{profile.name}</strong>{profile.bio}</p> */}
                         </PhotoStyle>
 
                         <ButtonsDisposition>
                             <img alt="Reject Button"
-                            onClick={() => {matchThePerson(false)}} 
+                            onClick={() => {matchThePerson(false)}}
+                            src={returnRejectIcon()} 
+                            onMouseOver={() => updateRejectImg("RejectIconColored")} 
+                            onMouseOut={() => updateRejectImg("RejectIconBw")} 
                             />
 
                             <img alt="Match Button" 
-                            src={heartImg} 
+                            src={returnMatchIcon()} 
                             onClick={() => {matchThePerson(true)}} 
-                            onMouseOver={() => updateHeartImg({Blackheart})} 
-                            onMouseOut={() => updateHeartImg({Whiteheart})}
+                            onMouseOver={() => updateHeartImg("Blackheart")} 
+                            onMouseOut={() => updateHeartImg("Whiteheart")}
                             />
 
                         </ButtonsDisposition>
 
-                    </div>
+                    </ActualProfile>
 
             );
             case "listOfMatchs": return (
 
-                <div>
-
-                        <Header>
-                            <h3>AstroMatch 2.0</h3>
-                            {iconOfTheHeader()}
-                        </Header>
-
-                        <PhotoStyle>
-                            <img src={profile.photo} alt="Profile Photo"/>
-                            {profileBio}
-                        </PhotoStyle>
-
-                        <ButtonsDisposition>
-
-                            <img alt="Reject Button"
-                            src={Blackheart}
-                            onClick={() => {matchThePerson(false)}} 
-                            />
-
-                            <img alt="Match Button" 
-                            src={heartImg} 
-                            onClick={() => {matchThePerson(true)}} 
-                            onMouseOver={() => updateHeartImg({Blackheart})} 
-                            onMouseOut={() => updateHeartImg({Whiteheart})}
-                            />
-
-                        </ButtonsDisposition>
-
-                    </div>
+           <ListOfMatchs
+            user={user}
+            iconOfTheHeader={iconOfTheHeader()}
+            listOfMatchs = {listOfMatchs}
+           />
 
             );      
             
