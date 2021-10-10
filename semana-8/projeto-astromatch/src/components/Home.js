@@ -78,8 +78,8 @@ const Home = () => {
     
     }
 
-    function getProfile(){
-        axios
+    async function getProfile(){
+        const response = await axios
         .get(`https://us-central1-missao-newton.cloudfunctions.net/astroMatch/${user}/person`)
         .then( response => {
             updateProfile(response.data.profile)
@@ -90,8 +90,8 @@ const Home = () => {
         });
     }
 
-    function getMatches(){
-        axios
+    async function getMatches(){
+        const response = axios
         .get(`https://us-central1-missao-newton.cloudfunctions.net/astroMatch/${user}/matches`)
         .then( response => {
             console.log(response, "esse daq")
@@ -176,7 +176,9 @@ const Home = () => {
 
                         <PhotoStyle>
                             <img src={profile.photo} alt="Profile Photo"/>
-                            {/* <p><strong>{profile.name}</strong>{profile.bio}</p> */}
+                            <figcaption>
+                                <p><strong>{profile.name}</strong> <br/> {profile.bio}</p>
+                            </figcaption>
                         </PhotoStyle>
 
                         <ButtonsDisposition>
@@ -201,11 +203,11 @@ const Home = () => {
             );
             case "listOfMatchs": return (
 
-           <ListOfMatchs
-            user={user}
-            iconOfTheHeader={iconOfTheHeader()}
-            listOfMatchs = {listOfMatchs}
-           />
+                <ListOfMatchs
+                user={user}
+                iconOfTheHeader={iconOfTheHeader()}
+                listOfMatchs = {listOfMatchs}
+                />
 
             );      
             
