@@ -1,33 +1,30 @@
-import {ListOfMatchsStyle, Header, ListOfMatchsContainer} from './Constants';
+import { ListOfMatchsStyle, ListOfMatchsContainer } from "./Constants";
+import ProfileHeader from "./ProfileHeader";
 
 const ListOfMatchs = (props) => {
+  function showListOfMatchs() {
+    const listOfMatchsToBeRendered = props.listOfMatchs.map((profile) => {
+      return (
+        <div key={profile.name}>
+          <img alt="Profile" src={profile.photo} />
+          <p>{profile.name}</p>
+        </div>
+      );
+    });
+    return listOfMatchsToBeRendered;
+  }
 
-    function showListOfMatchs(){
-        const listOfMatchsToBeRendered = props.listOfMatchs.map((profile) =>{
-            return(
-                <div>
-                    <img src={profile.photo}/>
-                    <p>{profile.name}</p>
-                </div>
-            )
-        })
-        return listOfMatchsToBeRendered
-    }
+  return (
+    <ListOfMatchsContainer>
+      <ProfileHeader
+        currentPage={props.currentPage}
+        user={props.user}
+        updateCurrentPage={props.updateCurrentPage}
+      />
 
-    return (
-        <ListOfMatchsContainer>
+      <ListOfMatchsStyle>{showListOfMatchs()}</ListOfMatchsStyle>
+    </ListOfMatchsContainer>
+  );
+};
 
-            <Header>
-                <h3>AstroMatch 2.0</h3>
-                {props.iconOfTheHeader}
-            </Header>
-
-            <ListOfMatchsStyle>
-                {showListOfMatchs()}
-            </ListOfMatchsStyle>
-
-        </ListOfMatchsContainer>
-    )
-}
-
-export default ListOfMatchs
+export default ListOfMatchs;
