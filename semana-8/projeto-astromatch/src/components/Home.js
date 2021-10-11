@@ -151,7 +151,8 @@ const Home = () => {
         `https://us-central1-missao-newton.cloudfunctions.net/astroMatch/${trimedUser}/clear`
       )
       .then((response) => {
-        alert(response.data.message);
+        alert("Matches e Swipes resetados com sucesso.");
+        console.log(response)
         getMatches();
       })
       .catch((err) => {
