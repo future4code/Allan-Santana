@@ -1,44 +1,50 @@
 import React, { useState, useEffect } from "react";
-import Home from "./components/Home";
-import { GloabalStyle } from "./components/Constants";
-import TravelPage from "./components/TravelPage";
-import AdministrativePage from "./components/AdministrativePage";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
+import HomePage from "./components/HomePage";
+import { GloabalStyle } from "./components/StyleConfiguration";
+import ListTripsPage from "./components/ListTripsPage";
+import AdminHomePage from "./components/AdminHomePage.js";
+import ApplicationFormPage from "./components/ApplicationFormPage"
+import LoginPage from "./components/LoginPage"
+import TripDetailsPage from "./components/TripDetailsPage"
+import CreateTripPage from "./components/CreateTripPage"
 
 function App() {
-
-  const [currentPage, setCurrentPage] = useState('home');
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':{
-        return (
-        <Home 
-        setCurrentPage = {setCurrentPage}
-        />
-        )
-      };
-
-      case 'travelPage':{
-        return(
-          <TravelPage/>
-        )
-      };
-
-      case 'administrativePage':{
-        return(
-          <AdministrativePage/>
-        )
-      }
-    
-      default:{
-        <p>Something has gone terrible wrong..</p>
-      }
-    }
-  }
+  const { userName } = useState("Teste User");
   return (
     <div>
       <GloabalStyle />
-      {renderPage()}
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
+
+          <Route exact path="/trips/list">
+            <ListTripsPage name={userName} />
+          </Route>
+
+          <Route exact path="/trips/application">
+            <ApplicationFormPage />
+          </Route>
+
+          <Route exact path="/login">
+            <LoginPage />
+          </Route>
+
+          <Route exact path="/administrativePage">
+            <AdminHomePage />
+          </Route>
+
+          <Route exact path="/admin/trips/list">
+            <TripDetailsPage />
+          </Route>
+
+          <Route exact path="/admin/trips/create">
+            <CreateTripPage />
+          </Route>
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
