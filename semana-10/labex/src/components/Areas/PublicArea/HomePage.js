@@ -1,12 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import RocketIcon from "../img/rocketIconColored.png";
-import AdministrativeIcon from "../img/administrativeIcon.png";
+import RocketIcon from "../../../img/rocketIconColored.png";
+import AdministrativeIcon from "../../../img/administrativeIcon.png";
 import {
   HomePageGeneralContainer,
   InitialOptionsContainer,
   ButtonDisposition,
-} from "./StyleConfiguration";
+} from "../../SharedContent/StyleConfiguration";
 
 const Home = () => {
   const history = useHistory();
