@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
+import { Switch, Route, BrowserRouter, useHistory } from "react-router-dom";
 import HomePage from "./components/Areas/PublicArea/HomePage";
 import { GloabalStyle } from "./components/SharedContent/StyleConfiguration";
 import ListTripsPage from "./components/Areas/PublicArea/ListTripsPage";
 import AdminHomePage from "./components/Areas/PrivateArea/AdminHomePage";
 import ApplicationFormPage from "./components/Areas/PublicArea/ApplicationFormPage"
-import LoginPage from "./components/Areas/PrivateArea/LoginPage"
+import LoginPage from "./components/Areas/PublicArea/LoginPage"
 import TripDetailsPage from "./components/Areas/PrivateArea/TripDetailsPage"
 import CreateTripPage from "./components/Areas/PrivateArea/CreateTripPage"
 
-function App() {
-  const { userName } = useState("Teste User");
+const App = () => {
+  const [ userName ] = useState("Teste User");
+
+  let history = useHistory()
+
+  function goToLoginPage(){
+    history.push("/login");
+  }
+
   return (
     <div>
       <GloabalStyle />
@@ -21,7 +28,9 @@ function App() {
           </Route>
 
           <Route exact path="/trips/list">
-            <ListTripsPage name={userName} />
+            <ListTripsPage 
+            name={userName}
+            />
           </Route>
 
           <Route exact path="/trips/application">
@@ -29,15 +38,24 @@ function App() {
           </Route>
 
           <Route exact path="/login">
-            <LoginPage />
+            <LoginPage 
+            goToLoginPage = {goToLoginPage}
+            history = {history}
+            />
           </Route>
 
           <Route exact path="/administrativePage">
-            <AdminHomePage />
+            <AdminHomePage 
+            setTripId = {setTripId} 
+            goToLoginPage = {goToLoginPage}
+            history = {history}
+            />
           </Route>
 
-          <Route exact path="/admin/trips/list">
-            <TripDetailsPage />
+          <Route exact path="/admin/trips/:id">
+            <TripDetailsPage 
+            tripId = {tripId}
+            />
           </Route>
 
           <Route exact path="/admin/trips/create">

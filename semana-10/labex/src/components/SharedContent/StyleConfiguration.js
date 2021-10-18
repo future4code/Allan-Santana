@@ -74,6 +74,7 @@ export const ButtonDisposition = styled.div`
 `;
 
 export const HeaderStyle = styled.div`
+position: relative;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -95,6 +96,9 @@ export const HeaderStyle = styled.div`
     width: 10%;
     height: 90%;
     margin: 0 40px;
+    :hover{
+      color: white;
+    }
   }
 
   h1::before {
@@ -128,7 +132,10 @@ export const HeaderStyle = styled.div`
     font-weight: 700;
     height: 100%;
     min-width: 10vw;
-    margin: 0 4px;
+    margin-left: 20px;
+    :hover{
+      color: white;
+    }
   }
   span::before {
     content: "";
@@ -155,7 +162,11 @@ export const HeaderStyle = styled.div`
   p {
     text-align: center;
     margin: 0;
+    :hover{
+      color: white;
+    }
   }
+
 `;
 
 export const TravelPageContainer = styled.div`
@@ -167,11 +178,24 @@ export const TravelPageContainer = styled.div`
 `;
 
 export const DispostionOfListElements = styled.div`
-display: grid;
-grid-template-columns: 350px 350px;
-grid-template-rows: 300px 300px 300px; 
-gap: 12px;
+display: flex;
+min-width: 70%;
+height: auto;
 margin-top: 20px;
+justify-content: center;
+align-items: center;
+gap: 20px;
+@media screen and (max-width: 1100px){
+  float: left;
+  display: grid;
+  grid-template-columns: repeat(2, 350px);
+  grid-template-rows: minmax(300px 300px);
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  /* overflow: auto; */
+}
 `
 
 export const CardStyle = styled.div`
@@ -180,8 +204,10 @@ cursor: pointer;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
-width: 100%;
+width: 10%;
 height: 100%;
+min-width: 300px;
+min-height: 350px;
 background-color: gray;
 background-image: url(${GalaxyImage});
 background-size: cover;
@@ -239,72 +265,199 @@ justify-content: flex-start;
 align-items: center;
 width: 100%;
 height: 100%;
-color: #202124;
+button{
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 20%;
+  height: 6%;
+  min-width: 50px;
+  min-height: auto;
+  margin-bottom: 20px;
+  font-style: inherit;
+  font-size: 80%;
+  font-weight: 800;
+  color: #bdc1c6;
+  background-color: rgba(9,9,121,1);
+  border: none;
+  border-radius: 8px;
+  :hover{
+    color: white;
+    transform: translateY(-0.25rem) scale(1.05, 1.05);
+  }
+}
 form{
+  color: #202124;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 50%;
+  width: 30%;
+  min-width: 480px;
   height: 80%;
   margin: 20px 0;
   background-color: white;
-  div{
-    box-sizing: border-box;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    height: 30%;
-    :nth-child(2){
-      height: 50%;
-    }
   }
-  div > div{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: left;
-    width: 100%;
-    padding: 20px;
-  }
+`
+export const NameAndProfessionInputsStyle = styled.div`
+display: flex;
+flex-direction: column !important;
+justify-content: left !important;
+width: 100%;
+height: 10%;
+max-height: 100px;
+margin-top: 20px;
+div{
+  box-sizing: border-box;
+  justify-content: left;
+  padding: 0 20px;
+  height: 50%;
+}
+div > label{
+  width: 22%;
+}
+`
 
-  div > div >input{
-    min-width: 200px;
-    margin-left: 8px;
-  }
-  /* input{
-    min-width: 200px;
-    margin-left: 8px;
-  } */
+export const ApplicationFormJustification = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+max-height: 80%;
+input{
+  height: 80%;
+  width: 70%;
+  text-align: start;
+  text-justify: auto;
+}
+h3{
+  margin: 0;
+}
+textarea{
+  box-sizing: border-box;
+  height: 80%;
+  width: 90%;
+  text-align: start;
+  text-justify: auto;
+  resize: none;
+  padding: 12px;
+  font-size: inherit;
+  font-family: inherit;
+  font-style: inherit;
 }
 `
 
 export const CheckBoxStyle = styled.div`
+box-sizing: border-box;
 display: flex;
 flex-direction: row !important;
 justify-content: left;
 width: 100%;
 height: 100%; 
-min-height: 100px;
+max-height: 50px;
+padding: 0 20px;
 label{
-  width: 30%;
+  width: 22%;
 }
 div{
   display: flex;
   justify-content: left;
   height: 100% !important;
-  padding: 0;
+  width: 78%;
+  padding-left: 12px;
 }
 input{
   min-width: initial !important;
   height: 100% !important;
 }
 label{
-  width: fit-content !important;
+  width: 20% !important;
 }
 `
 
-// Constants
+// LoginPage Style
 
-export const apiAuthorization = "allan-gilber-maryam"
+export const LoginPageStyle = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+width: 100%;
+height: 100%;
+`
+
+export const LoginContainer = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 90%;
+width: 100%;
+label{
+  color: #202124;
+  font-weight: 500;
+  width: 30%;
+  margin-right: 4px;
+}
+input{
+  width: 70%;
+}
+div {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 30%;
+width: 20%;
+min-width: 300px;
+min-height: auto;
+padding: 20px;
+background-color: white;
+}
+div> form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+}
+
+div > form > div{
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  height: auto;
+  width: 100%;
+  padding: 0;
+}
+`
+
+export const LoginButtonDisposition = styled.div`
+display: flex !important;
+flex-direction: row !important;
+justify-content: space-evenly !important;
+height: 30% !important;
+width: 100% !important;
+min-height: 50px !important;
+min-width: auto !important;
+padding: 0 !important;
+button{
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 30%;
+  height: 40%;
+  min-width: 50px;
+  min-height: auto;
+  font-style: inherit;
+  font-size: 80%;
+  font-weight: 800;
+  color: #bdc1c6;
+  background-color: rgba(9,9,121,1);
+  border: none;
+  border-radius: 8px;
+  :hover{
+    color: white;
+    transform: translateY(-0.25rem) scale(1.05, 1.05);
+  }
+}
+`
