@@ -25,7 +25,7 @@ const Router = () => {
         <Route exact path='/registerPage'>
           <RegisterPage />
         </Route>
-        <Route exact path='/feed'>
+        <Route exact path='/feed/:page?/:numberOfPosts?'>
           <Feed />
         </Route>
       </Switch>

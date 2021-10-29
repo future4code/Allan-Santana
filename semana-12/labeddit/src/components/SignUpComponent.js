@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "../hooks/Hooks";
 
-const SignUpComponent = () => {
-    const [signUp, setToSignup] = useState(false);
-    const { form, inputChange } = useForm({
-    //   email: "",
-    //   password: "",
-    // username: "",
-    });
+const SignUpComponent = (props) => {
 
     return (
         <>
@@ -17,9 +11,9 @@ const SignUpComponent = () => {
             type="text"         
             name="username"
             pattern=""
-            value={form.username}
+            value={props.form.username}
             title="Insert your userName."
-            onChange={inputChange}
+            onChange={props.inputChange}
             required
           />
         </div>
@@ -29,9 +23,9 @@ const SignUpComponent = () => {
             type="email"
             name="email"
             pattern=""
-            value={form.password}
+            value={props.form.email}
             title="Insert your email."
-            onChange={inputChange}
+            onChange={props.inputChange}
             required
           />
         </div>
@@ -41,9 +35,9 @@ const SignUpComponent = () => {
             type="password"
             name="password"
             pattern=""
-            value={form.password}
+            value={props.form.password}
             title="Type a new passowrd. (Your password must have a minimum of 8 and max of 30 caracters)"
-            onChange={inputChange}
+            onChange={props.inputChange}
             required
           />
         </div>

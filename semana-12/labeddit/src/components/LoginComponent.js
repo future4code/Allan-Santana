@@ -1,14 +1,7 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useForm } from "../hooks/Hooks";
+import React, { useState, useEffect } from "react";
 
-const LoginComponent = () => {
+const LoginComponent = (props) => {
 
-        const [signUp, setToSignup] = useState(false);
-        const { form, inputChange } = useForm({
-        //   email: "",
-        //   password: "",
-        });
   return (
     <>
       <div>
@@ -16,10 +9,10 @@ const LoginComponent = () => {
         <input
           type="email"
           name="email"
-          pattern=""
-          value={form.password}
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          value={props.form.email}
           title="Insert your email."
-          onChange={inputChange}
+          onChange={props.inputChange}
           required
         />
       </div>
@@ -28,10 +21,10 @@ const LoginComponent = () => {
         <input
           type="password"
           name="password"
-          pattern=""
-          value={form.password}
+          pattern=".{8,32}"
+          value={props.form.password}
           title="Insert your password."
-          onChange={inputChange}
+          onChange={props.inputChange}
           required
         />
       </div>

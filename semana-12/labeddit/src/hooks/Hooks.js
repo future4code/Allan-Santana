@@ -42,14 +42,12 @@ import { useState, useEffect } from 'react';
 export const useForm = (initialState) =>{
 
     const [form, setForm] = useState(initialState)
+
     const inputChange = (event) => {
         const {name, value} = event.target;
         setForm({...form, [name]: value})
+    console.log('form', form)
     }
 
     return {form, inputChange}
 }
-
-// Constants
-
-export const apiAuthorization = "allan-gilber-maryam"
