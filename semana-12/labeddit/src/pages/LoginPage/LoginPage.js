@@ -4,10 +4,11 @@ import { LoginPageContainer } from "./LoginPageStyle";
 import { useForm } from "../../hooks/Hooks";
 import LoginComponent from "../../components/LoginComponent"
 import SignUpComponent from "../../components/SignUpComponent";
-import {getUserPOST} from '../../constants/axiosRequests'
+import {sendUserDetails, useHandleToken} from '../../constants/axiosRequests'
 
 const LoginPage = () => {
   const [signUp, setToSignup] = useState(false);
+  const {token, setToken} = useHandleToken()
   // const [body, setBody] = useState({
   //   username: '',
   //   email: '',
@@ -22,13 +23,14 @@ const LoginPage = () => {
 
   const history = useHistory()
 
-  const [token, setToken] = useState(window.localStorage.getItem('token'))
+  // const [token, setToken] = useState(window.localStorage.getItem('token'))
 
-  useEffect(() => {
-    if(token !== null){
-        history.push('/feed/1/20')
-    }
-}, [token])
+//   useEffect(() => {
+//     console.log('useeffect')
+//     if(token !== null){
+//         history.push('/feed/1/20')
+//     }
+// }, [])
 
   const handleLoginSignup = (event) =>{
     event.preventDefault()
@@ -39,14 +41,18 @@ const LoginPage = () => {
        password: form.password,
       }
       console.log('body1', body)
-      getUserPOST(body, 1)
+       const getToken = () => {
+        sendUserDetails(body, 1)
+        setToken(getToken)
+       }
     }else{
       const body = {
         email: form.email,
         password: form.password,
       }
       console.log('body2', body)
-      getUserPOST(body, 2)
+      sendUserDetails(body, 2)
+      history.push('/feed/1/20')
     }
 
   }

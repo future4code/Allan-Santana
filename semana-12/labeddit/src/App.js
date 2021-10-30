@@ -23,7 +23,8 @@ const GloabalStyle = createGlobalStyle`
       justify-content: center;
       align-items: center;
       border-radius: 3px;
-      height: 100%;
+      height: auto;
+      min-height: 100%;
       width: 100%;
     }
 `;

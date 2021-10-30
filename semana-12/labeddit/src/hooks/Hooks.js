@@ -51,3 +51,12 @@ export const useForm = (initialState) =>{
 
     return {form, inputChange}
 }
+
+// export const useGetToken = () => {
+//     const getoken = () =>{
+//         const getTokenString = sessionStorage.getItem('token')
+//         const userToken = json.parse(getTokenString)
+//         return usertoken?.token
+//     }
+//     const [token, setToken] = useState(getoken())
+// }

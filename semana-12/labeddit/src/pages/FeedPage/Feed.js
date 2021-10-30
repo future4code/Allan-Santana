@@ -6,17 +6,17 @@ import {FeedContainer} from './FeedStyle'
 const Feed = () => {
     const history = useHistory()
 
-    useEffect(() => {
-        const token = window.localStorage.getItem('token')
-        if(token === null){
-            history.replace('/')
-        }
-    }, [history])
+    // useEffect(() => {
+    //     const token = window.localStorage.getItem('token')
+    //     if(token === null){
+    //         history.replace('/')
+    //     }
+    // }, [history])
     
     return (
         <FeedContainer>
             <header>
-                <input/>
+                <textarea />
                 <button>
                     Postar
                 </button>
