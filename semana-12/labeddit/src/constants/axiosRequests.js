@@ -1,43 +1,37 @@
-import React, {useState} from "react";
+import { useState } from "react";
 import { baseURL, contentType } from "./Constants";
 import axios from "axios";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export async function sendUserDetails(body, argument) {
   switch (argument) {
     case 1:
-      {
-        try {
-          let response = await axios.post(`${baseURL}/users/signup`, body, {
-            headers: {
-              contentType,
-            },
-          });
-          localStorage.setItem("token", response.data.token);
-          return response.data.token;
-        } catch (error) {
-          console.log(error);
-        }
+      try {
+        let response = await axios.post(`${baseURL}/users/signup`, body, {
+          headers: {
+            contentType,
+          },
+        });
+        localStorage.setItem("token", response.data.token);
+        return response.data.token;
+      } catch (error) {
+        alert(error);
       }
       break;
     case 2:
-      {
-        try {
-          let response = await axios.post(`${baseURL}/users/login`, body, {
-            headers: {
-              contentType,
-            },
-          });
-          localStorage.setItem("token", response.data.token);
-        } catch (error) {
-          console.log(error);
-        }
+      try {
+        let response = await axios.post(`${baseURL}/users/login`, body, {
+          headers: {
+            contentType,
+          },
+        });
+        localStorage.setItem("token", response.data.token);
+      } catch (error) {
+        alert(error);
       }
       break;
     default:
-      {
-        alert("ERROR: Invalid request");
-      }
+      alert("ERROR: Invalid request");
       break;
   }
 }
@@ -52,7 +46,52 @@ export const useFeedPosts = () => {
   const token = window.localStorage.getItem("token");
   const [isLoading, setLoading] = useState(true);
   const [postData, setPostData] = useState(null);
-  const [commentList, setCommentList] = useState()
+  const [commentList, setCommentList] = useState();
+  const [postDetails, setPostDetails] = useState();
+
+  const postVote = async (id, vote, postInfo, type) => {
+    const body = {
+      direction: vote,
+    };
+    const makeBaseUrl = () => {
+      if ("comment" === type) {
+        return `${baseURL}/comments/${id}/votes`;
+      } else {
+        return `${baseURL}/posts/${id}/votes`;
+      }
+    };
+    try {
+      await axios.put(makeBaseUrl(), body, {
+        headers: {
+          contentType,
+          Authorization: token,
+        },
+      });
+      window.location.reload();
+    } catch (error) {
+      alert("error message", error);
+    }
+  };
+
+  const removeVote = async (id, vote, postInfo, type) => {
+    const makeBaseUrl = () => {
+      if ("comment" === type) {
+        return `${baseURL}/comments/${id}/votes`;
+      } else {
+        return `${baseURL}/posts/${id}/votes`;
+      }
+    };
+    try {
+      await axios.delete(makeBaseUrl(), {
+        headers: {
+          Authorization: token,
+        },
+      });
+      window.location.reload();
+    } catch (error) {
+      alert("error message", error);
+    }
+  };
 
   const getData = async () => {
     try {
@@ -66,38 +105,73 @@ export const useFeedPosts = () => {
         }
       );
       setPostData(response.data);
-      console.log('data recebida', response.data);
-      setLoading(false);
     } catch (error) {
-      console.log("error message", error);
+      alert(error);
     }
   };
 
-  const getCommentList = async (id) => {
-    setLoading(true);
-    console.log(commentList, '123123', object)
+  const getCommentList = async (id, object) => {
+    axios
+      .get(`${baseURL}/posts/${id}/comments`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        setCommentList(response.data);
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+  const commentPost = async (text, id) => {
+    const body = {
+      body: text,
+    };
+
     try {
-      let response = await axios.get(
-        `${baseURL}/posts/${id}/comments`,
-        {
-          headers: {
-            Authorization: token
-          },
-        }
-      );
-      const lol = {}
-      lol[0] = commentList
-      lol[1] = response.data
-      console.log(lol, 'lolsadas')
-      setCommentList(lol);
-      console.log('data recebida', response.data);
-      console.log('comentass', commentList);
-      setLoading(false);
-    } catch (error) {
-      console.log("error message", error);
-    }
+      let response = await axios.post(`${baseURL}/posts/${id}/comments`, body, {
+        headers: {
+          contentType,
+          Authorization: token,
+        },
+      });
+      alert(response.data);
+      window.location.reload();
+    } catch (error) {}
   };
 
-  return { isLoading, getData, postData, getCommentList, commentList, setCommentList };
-};
+  const createPost = async (title, text) => {
+    const body = {
+      title: title,
+      body: text,
+    };
+    try {
+      let response = await axios.post(`${baseURL}/posts/`, body, {
+        headers: {
+          contentType,
+          Authorization: token,
+        },
+      });
+      alert(response.data);
+      window.location.reload();
+    } catch (error) {}
+  };
 
+  return {
+    isLoading,
+    setLoading,
+    getData,
+    postData,
+    getCommentList,
+    commentList,
+    setCommentList,
+    postDetails,
+    setPostDetails,
+    postVote,
+    createPost,
+    commentPost,
+    removeVote,
+  };
+};

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useFeedPosts, getCommentList } from "../constants/axiosRequests";
-import { useHistory, useParams } from "react-router";
+import React, { useEffect } from "react";
+import { useFeedPosts } from "../constants/axiosRequests";
+import { useHistory } from "react-router";
 import { PostContainer } from "../pages/FeedPage/FeedStyle";
 import LikeIcon from "../img/likeIcon.png";
 import likeIconFilled from "../img/likeIconFilled.png";
@@ -8,22 +8,45 @@ import dislikeIconFilled from "../img/dislikeIconFilled.png";
 import dislikeIcon from "../img/dislikeIcon.png";
 
 const PostsComponent = () => {
-  const { isLoading, getData, postData, getCommentList, setCommentList } = useFeedPosts();
+  const { getData, postData, postingNewContent, removeVote, postVote } = useFeedPosts();
     const history = useHistory()
 
   const getPostComments = (id) =>{
     history.push(`/postPage/${id}`)
   }
 
-  // const postData = getData()
+  useEffect(() => {
+    if(!postData){
+      getData()
+    }
+  }, [postData, getData]);
 
-  const mapPosts = () => {
-    console.log(postData, "esse");
-    const postList = postData.map((post) => {
-        const object = post
+  useEffect(() => {
+    if(!postingNewContent){
+      getData()
+    }
+  }, [postingNewContent,getData]);
+
+  const handleVote = (id, vote, postObject, type) =>{
+    if(postObject.userVote === vote){
+      removeVote(id, vote, postObject, type)
+    } else{
+    const tryToVote = postVote(id, vote, postObject, type)
+    if(tryToVote){
+      getData()
+    }
+    }
+  }
+  
+
+    const postList = postData === null ? (
+      <section>
+        <h1>Loading...</h1>
+      </section>
+    ) : (postData.map((post) => {
       return (
-        <PostContainer>
-        <section key={post.id}>
+        <PostContainer key={post.id}>
+        <section>
           <div>
             <h5>User: {post.username}</h5>
             <p>
@@ -33,37 +56,29 @@ const PostsComponent = () => {
           <p>{post.body}</p>
           <footer>
             <div>
-            <img src={LikeIcon} />
+            <img
+            alt='Like icon'
+            onClick={() => handleVote(post.id, 1, post)}
+            src={post.userVote === 1 ? (likeIconFilled) : (LikeIcon)}
+            />
             <p>{post.voteSum ? post.voteSum : 0}</p>
-            <img sr={dislikeIcon} />
+            <img 
+            alt='Dislike icon'
+            onClick={() => handleVote(post.id, -1, post)}
+            src={post.userVote === -1 ? (dislikeIconFilled):(dislikeIcon)} 
+            />
             </div>
             <div>
-            <p onClick={() => {getPostComments(post.id)}}>{post.commentCount} comentários</p>
+            <p onClick={() => {getPostComments(post.id)}}>{post.commentCount ? (post.commentCount) : (0)} comentários</p>
             </div>
           </footer>
         </section>
         </PostContainer>
-      );
-    });
-    return postList;
-  };
-
-  useEffect(() => {
-    // const getPostData = getData()
-    console.log(postData);
-    getData(postData);
-  }, [isLoading]);
+    )}));
 
   return (
     <>
-      {postData === null ? (
-        <section>
-          <h1>Loading...</h1>
-        </section>
-      ) : (
-        mapPosts()
-      )}
-      {/* <button onClick={() => console.log(postData)}>see postdata</button> */}
+        {postList}
     </>
   );
 };

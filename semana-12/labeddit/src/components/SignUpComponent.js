@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useForm } from "../hooks/Hooks";
+import React from "react";
 
 const SignUpComponent = (props) => {
 

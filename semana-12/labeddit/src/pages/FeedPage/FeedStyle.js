@@ -8,17 +8,11 @@ flex-direction: column;
 justify-content: flex-start;
 align-items: center;
 width: 100%;
-min-height: 100%;
-header{
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 70%;
-    height: 20%;
-    margin-top: 12px;
-textarea {
+min-height: 100vh;
+header > form{
+    height: 100%;
+    width: 100%;
+    textarea {
     display: flex;
     flex-direction: column;
     justify-content: left;
@@ -26,15 +20,37 @@ textarea {
     box-sizing: border-box;
     width: 100%;
     height: 80%;
+    border: none;
     padding: 12px;
     text-align: left;
     resize:none
 }
 button{
+    cursor: pointer;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
     width: 100%;
-    height: 20%;
+    height: 10%;
+    border: none;
 }
+input{
+    box-sizing: border-box;
+    display: flex;
+    height: 10%;
+    width: 100%;
+    border: none;
+}
+}
+header{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+    height: 30%;
+    margin: 16px 0;
 }
 `
 
@@ -46,7 +62,7 @@ export const PostContainer = styled.div`
     align-items: center;
     width: 70%;
     height: auto;
-    margin: 16px 0;
+    margin-bottom: 16px;
 section{
     width: 100%;
     color: black;
@@ -120,6 +136,5 @@ footer{
     text-align: center;
     }
     }
-    
 }
 `
