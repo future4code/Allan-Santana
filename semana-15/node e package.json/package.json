@@ -1,0 +1,16 @@
+{
+  "name": "aula-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "clear && echo 'Starting development server...' && node index.js",
+    "search-country-by-name": "clear && node searchCountryByName.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "show-age":"clear && node ./Exercicio1/show-age.js",
+    "mat-operations":"clear && node ./Exercicio2/mat-operations.js",
+    "tasks-list":"clear && node ./Exercicio3/tasks-list.js"
+  },
+  "author": "Allan Gilber",
+  "license": "ISC"
+}
