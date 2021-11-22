@@ -1,0 +1,46 @@
+Exercício 1
+
+Vamos começar fazendo um endpoint que busque todos os usuários de uma lista. A lista está disponível abaixo.
+
+
+a. Qual método HTTP você deve utilizar para isso?
+
+O endpoint indicado seria o GET já que queremos apenas obter as informações da lista.
+
+*b. Como você indicaria a entidade que está sendo manipulada?*
+
+Indicaria com "/users"
+
+Exercício 2
+
+Agora, vamos criar um novo endpoint, que busque todos os usuários que tenham uma propriedade type específica, recebendo apenas um type por vez. Após isso, responda:
+
+a. Como você passou os parâmetros de type para a requisição? Por quê?
+
+Os parâmetros foram passados por 'pathparams' em razão de ser um subgrupo da entidade users a qual também poderá ser alvo de uma pesquisa. 
+
+b. Você consegue pensar em um jeito de garantir que apenas `types` válidos sejam utilizados?
+
+Pela criação de um 'If' que avalie se um dos types existentes foi informado.
+
+Exercício 3
+
+Vamos agora praticar o uso de buscas mais variáveis. Faça agora um endpoint de busca que encontre um usuário buscando por nome.
+
+a. Qual é o tipo de envio de parâmetro que costuma ser utilizado por aqui?
+
+Utilizei o queryparamters pois é um requisito opicional para se filtrar a entidade 'users'.
+
+b. Altere este endpoint para que ele devolva uma mensagem de erro caso nenhum usuário tenha sido encontrado.
+
+Exercício 4
+
+Fizemos algumas buscas no nosso conjunto de itens, agora é hora de adicionar coisas. Comecemos criando um usuário na nossa lista. Crie um endpoint que use o método `POST` para adicionar um item ao nosso conjunto de usuários.
+
+a. Mude o método do endpoint para `PUT`. O que mudou?
+
+Apenas o metódo a ser utilizado pelo frontend.
+
+b. Você considera o método `PUT` apropriado para esta transação? Por quê?
+
+Enetndo que ambos são considerados válidos. Pois conforme convencção, tanto o POST quanto o PUT podem criar novos recursos. No entanto, o POST seria o método mais específico para criação de novos recursos. Devendo, portanto, ser o preferido.
