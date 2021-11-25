@@ -38,7 +38,23 @@ app.get("/actors/:id", async (req: Request, res: Response) => {
     res.status(200).send(response);
   } catch (error: any) {
     console.log(error.message);
-    res.status(500).send("Unexpected error");
+    res.status(500).send(error.sqlMessage || error.mesage);
+  }
+});
+
+// Get Amount by Gender
+
+app.get("/actors", async (req: Request, res: Response) => {
+  try {
+    const gender = req.query.id;
+
+    const response = await getAmountBygender(id);
+
+    console.log(response);
+    res.status(200).send(response);
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(500).send(error.sqlMessage || error.mesage);
   }
 });
 
@@ -62,7 +78,7 @@ app.get("/actors/search/:name", async (req: Request, res: Response) => {
     res.status(200).send(response);
   } catch (error: any) {
     console.log(error.message);
-    res.status(500).send("Unexpected error");
+    res.status(500).send(error.sqlMessage || error.mesage);
   }
 });
 
@@ -88,30 +104,14 @@ app.get(
       res.status(200).send(response);
     } catch (error: any) {
       console.log(error.message);
-      res.status(500).send("Unexpected error");
+      res.status(500).send(error.sqlMessage || error.mesage);
     }
   }
 );
 
-// Update Salary
-
-const updateSalary = async (id: any, salary: any): Promise<any> => {
-    const fixedSalary = Number(salary)
-
-    console.log(typeof(fixedSalary))
-
-    const result = await connection.raw(`
-      UPDATE Actor 
-      SET salary = ${fixedSalary}
-      WHERE id = "${id}"
-      `);
-
-    return `The salary of the Actor of Id ${id} is now: R$ ${salary}` ;
-  };
-
+// Update Salary - Query Builder
 
 app.put("/actors/updatesalary/", async (req: Request, res: Response) => {
-
   const id = req.query.id;
   const salary = req.query.salary;
 
@@ -120,16 +120,71 @@ app.put("/actors/updatesalary/", async (req: Request, res: Response) => {
       throw new Error("Need to inform id and salary.");
     }
 
-    if(!(id.length === 3) || !(typeof(id) === "string")){
+    if (!(id.length === 3) || !(typeof id === "string")) {
       throw new Error("Invalid Id.");
     }
 
-    const response = await updateSalary(id, Number(salary));
+    const response = await connection("Actor")
+      .update({
+        salary: salary,
+      })
+      .where({ id: id });
 
     console.log(response);
-    res.status(200).send(response);
+    res.sendStatus(200).send(response);
   } catch (error: any) {
     console.log(error.message);
-    res.status(500).send("Unexpected error");
+    res.sendStatus(500).send(error.sqlMessage || error.mesage);
+  }
+});
+
+// Delet by Id - Query Builder
+
+app.delete("/actors/deletebyid/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  try {
+    if (!id) {
+      throw new Error("Need to inform id.");
+    }
+
+    if (!(id.length === 3) || !(typeof id === "string")) {
+      throw new Error("Invalid Id.");
+    }
+    const response = await connection("Actor").delete().where({ id: id });
+
+    res.sendStatus(200).send("Sucessfuly deleted actor");
+  } catch (error: any) {
+    console.log(error.message);
+    res.sendStatus(500).send(error.sqlMessage || error.mesage);
+  }
+});
+
+
+// AVG Gender Salary - Query Builder
+
+app.get("/actors/averagesalary/:gender", async (req: Request, res: Response) => {
+  const gender = req.params.gender;
+
+  console.clear
+
+  try {
+    if (!gender) {
+      throw new Error("Need to inform gender.");
+    }
+
+    if (!(gender === "male") && !(gender === "female")) {
+      throw new Error("Invalid gender.");
+    }
+
+    const response = await connection("Actor").avg("salary").where({ gender: gender }).groupBy({"gender": 'gender'});
+
+    console.log(response[0])
+
+    res.sendStatus(200).send(response[0]);
+
+  } catch (error: any) {
+    console.log(error.message);
+    res.sendStatus(500).send(error.sqlMessage || error.mesage);
   }
 });
