@@ -28,3 +28,25 @@ app.get("/actors/:id", async (req: Request, res: Response) => {
 - Deve ser um GET (`/actor`)
 - Receber o gênero como um *query param* (`/actor?gender=`)
 - Devolver a quantidade de atores/atrizes desse gênero
+
+```
+app.get( "/actors/amountbygender/",  async (req: Request, res: Response) => {
+  console.log('hu')
+    try {
+      const gender: any = req.query.gender
+      
+      if(gender !== 'male' && gender !== 'female'){
+        throw new Error("Invalid gender.");
+      }
+
+      const response = await connection("Actor")
+      .count().where({ gender: gender });
+      console.log(response, 'teste')
+
+      res.sendStatus(200).send(response);
+    } catch (error: any) {
+      res.status(500).send( error.sqlMessage || error.message );
+    }
+  }
+);
+```

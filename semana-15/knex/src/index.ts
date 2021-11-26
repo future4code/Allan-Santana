@@ -28,6 +28,30 @@ const getActorById = async (id: string): Promise<any> => {
   return result[0][0];
 };
 
+// Amount by gender
+
+app.get( "/actors/amountbygender/",  async (req: Request, res: Response) => {
+  console.log('hu')
+    try {
+      const gender: any = req.query.gender
+      
+      if(gender !== 'male' && gender !== 'female'){
+        throw new Error("Invalid gender.");
+      }
+
+      const response = await connection("Actor")
+      .count().where({ gender: gender });
+      console.log(response, 'teste')
+
+      res.sendStatus(200).send({data: response});
+    } catch (error: any) {
+      res.status(500).send( error.sqlMessage || error.message );
+    }
+  }
+);
+
+// Get Actor by Id
+
 app.get("/actors/:id", async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
@@ -35,26 +59,10 @@ app.get("/actors/:id", async (req: Request, res: Response) => {
     const response = await getActorById(id);
 
     console.log(response);
-    res.status(200).send(response);
+    res.sendStatus(200).send(response);
   } catch (error: any) {
     console.log(error.message);
-    res.status(500).send(error.sqlMessage || error.mesage);
-  }
-});
-
-// Get Amount by Gender
-
-app.get("/actors", async (req: Request, res: Response) => {
-  try {
-    const gender = req.query.id;
-
-    const response = await getAmountBygender(id);
-
-    console.log(response);
-    res.status(200).send(response);
-  } catch (error: any) {
-    console.log(error.message);
-    res.status(500).send(error.sqlMessage || error.mesage);
+    res.sendStatus(500).send(error.sqlMessage || error.message);
   }
 });
 
@@ -75,39 +83,14 @@ app.get("/actors/search/:name", async (req: Request, res: Response) => {
     const response = await searchActorByName(name);
 
     console.log(response);
-    res.status(200).send(response);
+    res.sendStatus(200).send(response);
   } catch (error: any) {
     console.log(error.message);
-    res.status(500).send(error.sqlMessage || error.mesage);
+    res.sendStatus(500).send(error.sqlMessage || error.message);
   }
 });
 
-// Amount by gender
 
-const getAmountByGender = async (gender: string): Promise<any> => {
-  const result = await connection.raw(`
-    SELECT COUNT(*) as count FROM Actor WHERE gender = "${gender}" GROUP BY gender
-    `);
-
-  return result[0][0];
-};
-
-app.get(
-  "/actors/amountbygender/:gender",
-  async (req: Request, res: Response) => {
-    try {
-      const gender = req.params.gender;
-
-      const response = await getAmountByGender(gender);
-
-      console.log(response);
-      res.status(200).send(response);
-    } catch (error: any) {
-      console.log(error.message);
-      res.status(500).send(error.sqlMessage || error.mesage);
-    }
-  }
-);
 
 // Update Salary - Query Builder
 
@@ -134,31 +117,10 @@ app.put("/actors/updatesalary/", async (req: Request, res: Response) => {
     res.sendStatus(200).send(response);
   } catch (error: any) {
     console.log(error.message);
-    res.sendStatus(500).send(error.sqlMessage || error.mesage);
+    res.sendStatus(500).send(error.sqlMessage || error.message);
   }
 });
 
-// Delet by Id - Query Builder
-
-app.delete("/actors/deletebyid/:id", async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  try {
-    if (!id) {
-      throw new Error("Need to inform id.");
-    }
-
-    if (!(id.length === 3) || !(typeof id === "string")) {
-      throw new Error("Invalid Id.");
-    }
-    const response = await connection("Actor").delete().where({ id: id });
-
-    res.sendStatus(200).send("Sucessfuly deleted actor");
-  } catch (error: any) {
-    console.log(error.message);
-    res.sendStatus(500).send(error.sqlMessage || error.mesage);
-  }
-});
 
 
 // AVG Gender Salary - Query Builder
@@ -185,6 +147,31 @@ app.get("/actors/averagesalary/:gender", async (req: Request, res: Response) => 
 
   } catch (error: any) {
     console.log(error.message);
-    res.sendStatus(500).send(error.sqlMessage || error.mesage);
+    res.sendStatus(500).send(error.sqlMessage || error.message);
   }
 });
+
+
+// Delet by Id - Query Builder
+
+app.delete("/actors/deletebyid/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  try {
+    if (!id) {
+      throw new Error("Need to inform id.");
+    }
+
+    if (!(id.length === 3) || !(typeof id === "string")) {
+      throw new Error("Invalid Id.");
+    }
+    const response = await connection("Actor").delete().where({ id: id });
+
+    res.sendStatus(200).send("Sucessfuly deleted actor");
+  } catch (error: any) {
+    console.log(error.message);
+    res.sendStatus(500).send(error.sqlMessage || error.message);
+  }
+});
+
+// 
