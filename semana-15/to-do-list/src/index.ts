@@ -29,15 +29,12 @@ const getUserById = async (id: string): Promise<any> => {
   WHERE id = "${id}";
   `);
 
-  console.log(result[0], "resultado");
   return result[0][0];
 };
 
 app.get("/user/:id", async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-
-    console.log(id, typeof id);
 
     let response = await getUserById(id);
 
@@ -54,8 +51,6 @@ app.get("/user/:id", async (req: Request, res: Response) => {
 // GET User by Id
 
 const getTaskById = async (id: string): Promise<any> => {
-  console.log('lol')
-
   const result = await connection.raw(`
   SELECT * FROM ToDoTaskList
   LEFT JOIN ToDoListUsersAccounts
@@ -63,7 +58,6 @@ const getTaskById = async (id: string): Promise<any> => {
   WHERE ToDoTaskList.id = "${id}";
   `);
 
-  console.log(result[0][0], "resultado");
   return result[0][0];
 };
 
@@ -74,15 +68,11 @@ app.get("/task/:id", async (req: Request, res: Response) => {
     let response = await getTaskById(id);
 
     if (response) {
-      console.log('entrou', typeof(response.limit_date.toISOString()), response.limit_date.toISOString())
       const date = response.limit_date.toISOString().split("-");
-      console.log('entrou2')
 
-      const newDate = date[2] + "/" + date[1] + "/" + date[0];
-      console.log('entrou3')
+      const newDate =
+        `${date[2].split("T")[0]}` + "/" + `${date[1]}` + "/" + `${date[0]}`;
 
-      console.log(newDate);
-  
       const responseToUser = {
         taskId: response.id,
         title: response.title,
@@ -90,10 +80,9 @@ app.get("/task/:id", async (req: Request, res: Response) => {
         limitDate: newDate,
         status: response.state,
         creatorUserId: response.user_id,
-        creatorUserNickname: response.nickname
-      }
+        creatorUserNickname: response.nickname,
+      };
 
-      console.log( responseToUser, 'resposta')
       res.status(200).send(responseToUser);
     } else {
       res.status(500).send("Task not found.");
@@ -111,26 +100,21 @@ const updateUser = async (
   nickname: string,
   email: string
 ): Promise<any> => {
-
-  let body = `UPDATE ToDoListUsersAccounts`
-  if(name){
-    body = body + ` SET name = "${name}",`
+  let body = `UPDATE ToDoListUsersAccounts`;
+  if (name) {
+    body = body + ` SET name = "${name}",`;
   }
-  if(nickname){
-    body = body + ` nickname = "${nickname}",`
+  if (nickname) {
+    body = body + ` nickname = "${nickname}",`;
   }
-  if(email){
-    body = body + ` email = "${email}",`
+  if (email) {
+    body = body + ` email = "${email}",`;
   }
 
-  
-  body = body.substring(0, body.length - 1) + `WHERE id = "${id}";`
-  console.log(body)
+  body = body.substring(0, body.length - 1) + `WHERE id = "${id}";`;
 
-  const result = await connection.raw(
-  body);
+  const result = await connection.raw(body);
 
-  console.log(result[0], "resultado");
   return result[0];
   // return 'lol'
 };
@@ -139,15 +123,12 @@ app.put("/user/edit/:id", async (req: Request, res: Response) => {
   const { name, nickname, email } = req.body;
   const id = req.params.id;
 
-  console.log(name, nickname, email);
-
   try {
     if (!id) {
       throw new Error("Missing user Id.");
     }
 
     if (name === "" || nickname === "" || email === "") {
-      console.log("123");
       throw new Error(
         "Blank data. Please insert the information you want to change o remove the field."
       );
@@ -156,15 +137,12 @@ app.put("/user/edit/:id", async (req: Request, res: Response) => {
     // const bodyOfRequisition = name ? `SET ${name}`
     let response = await updateUser(id, name, nickname, email);
 
-    console.log(response);
-
     if (response.affectedRows > 0) {
       res.status(200).send("Information has been updated.");
     } else {
       res.status(500).send("Something has gone wrong.");
     }
   } catch (error: any) {
-    console.log(error, typeof error);
     res.status(500).send(error.message);
   }
 });
@@ -182,14 +160,11 @@ const tryToCreateNewUser = async (
     VALUES ("${id}", "${name}", "${nickname}", "${email}" );
     `);
 
-  console.log(result[0], "resultado");
   return result[0];
 };
 
 app.post("/user", async (req: Request, res: Response) => {
   const { name, nickname, email } = req.body;
-
-  console.log(name, nickname, email);
 
   try {
     if (!name || !nickname || !email) {
@@ -200,8 +175,6 @@ app.post("/user", async (req: Request, res: Response) => {
     const id = new Date().getTime();
 
     let response = await tryToCreateNewUser(id, name, nickname, email);
-
-    console.log(response);
 
     if (response.affectedRows > 0) {
       res.status(200).send("User account successfuly created!");
@@ -227,18 +200,14 @@ const tryToCreateNewTask = async (
   VALUES ("${id}", "${title}", "${description}", "${limitDate}", "${creatorUserId}" );
   `);
 
-  console.log(result[0], "resultado");
   return result[0];
 };
 
 app.post("/task", async (req: Request, res: Response) => {
   const { title, description, limitDate, creatorUserId } = req.body;
 
-  console.log(title, description, limitDate, creatorUserId);
-
   try {
     if (!title || !description || !limitDate || !creatorUserId) {
-      console.log("123");
       throw new Error(
         "Incomplete data. Please inform a title, description, limit date and the creator user Id."
       );
@@ -250,8 +219,6 @@ app.post("/task", async (req: Request, res: Response) => {
 
     const newDate = date[2] + "-" + date[1] + "-" + date[0];
 
-    console.log(newDate);
-
     let response = await tryToCreateNewTask(
       id,
       title,
@@ -260,15 +227,12 @@ app.post("/task", async (req: Request, res: Response) => {
       creatorUserId
     );
 
-    console.log(response);
-
     if (response.affectedRows > 0) {
       res.status(200).send("New task successfuly created!");
     } else {
       res.status(500).send("Something has gone wrong.");
     }
   } catch (error: any) {
-    console.log(error, typeof error);
     res.status(500).send(error.message);
   }
 });
