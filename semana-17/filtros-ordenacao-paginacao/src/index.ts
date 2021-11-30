@@ -6,6 +6,7 @@ import { getAllUsersByName } from "./endpoints/getAllUsersByName"
 import { getAllUsersBytype } from "./endpoints/getAllUsersByType"
 import { getAllUsersInOrder } from "./endpoints/getAllUsersInOrder"
 import { getAllUsersLimitedByFive } from "./endpoints/getAllUsersLimitedByFive"
+import { getAllUsersAllParams } from "./endpoints/getAllUsersAllParams"
 
 export const app = express()
 
@@ -31,3 +32,5 @@ app.get("/users/:type", getAllUsersBytype)
 app.get("/usersbyorder/", getAllUsersInOrder)
 
 app.get("/userslimitedbyfive/", getAllUsersLimitedByFive)
+
+app.get("/getusers/", getAllUsersAllParams)
