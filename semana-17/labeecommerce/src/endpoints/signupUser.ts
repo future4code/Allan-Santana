@@ -1,6 +1,6 @@
 import connection from "../connection";
 import { Request, Response } from "express";
-import { user } from "../types/newUser";
+import { user } from "../types/types";
 
 export default async function tryToCreateUser(
   id: number,
@@ -47,9 +47,16 @@ export const signupUser = async (
 
     let response = await tryToCreateUser(id, name, email, password);
 
-    res.status(200).send(response);
+    console.log("resposta:", response)
+
+    if(response.affectedRows > 0){
+      res.status(200).send("User successfuly created!");
+    } else{
+      throw new Error("Something has gone wrong.");
+    }
+
     } catch (error: any) {
-    console.log(error);
-    res.status(error.statusCode).send(error.message || error.sqlMessage);
+    console.log('erro', error);
+    res.status(500).send(error.sqlMessage || error.message);
   }
 };

@@ -4,6 +4,10 @@ import { AddressInfo } from "net";
 import connection from "./connection";
 import { Request, Response } from "express";
 import { signupUser } from "./endpoints/signupUser"
+import { listUsers } from "./endpoints/listUsers"
+import { postNewProduct } from "./endpoints/postNewProduct"
+import { listProducts } from "./endpoints/listProducts"
+import { postRegisterPurchase } from "./endpoints/postRegisterPurchase"
 
 const app = express();
 
@@ -19,4 +23,28 @@ const server = app.listen(process.env.PORT || 3003, () => {
   }
 });
 
+// Get User List
+
+app.get("/users", listUsers)
+
+
+// Get Products List
+
+app.get("/products", listProducts)
+
+// POST User Account Creation
+
 app.post("/users", signupUser)
+
+// POST New Product
+
+app.post("/products", postNewProduct)
+
+// POST Register Purchase
+
+app.post("/purchases", postRegisterPurchase)
+
+
+
+
+
