@@ -17,7 +17,6 @@ export async function tryToRegisterPurchase(
   quantity: number,
   total_price: number
 ): Promise<any> {
-    console.log('tryToRegisterPurchase')
   const result = await connection.raw(`
     INSERT INTO labecommerce_purchases (id, user_id, product_id, quantity, total_price)
     VALUES ("${id}", "${user_id}", "${product_id}", "${quantity}", "${total_price}");
@@ -29,12 +28,9 @@ export const postRegisterPurchase = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  console.log("entrou");
-
   try {
     const id = new Date().getTime();
     const { user_id, product_id, quantity }: purchaseBody = req.body;
-
 
     if (!user_id) {
       res.statusCode = 404;
@@ -51,11 +47,9 @@ export const postRegisterPurchase = async (
 
     let price = await getPrice(product_id);
 
-    console.log('23', price.price)
-    if(!price){
+    if (!price) {
       throw new Error("Invalid product Id.");
     }
-    console.log("2131", quantity, typeof(quantity))
     const total_price = price.price * Number(quantity);
 
     let response = await tryToRegisterPurchase(
@@ -66,24 +60,20 @@ export const postRegisterPurchase = async (
       total_price
     );
 
-    console.log("resposta:", response);
-
     if (response.affectedRows > 0) {
       res.status(200).send("Purchase was successfuly!");
     } else {
       throw new Error("Something has gone wrong.");
     }
   } catch (error: any) {
-    console.log("erro", typeof(error),error );
-    console.log("erro", error)
-    if(!error || !error.TypeError){
-        res.status(500).send("Product not found.");
-    } 
-    if(error.errno === 1452){
-        res.status(500).send("User Id is incorrect.");
+    console.log("erro", error);
+    if (!error || !error.TypeError) {
+      res.status(500).send("Product not found.");
     }
-    else{
-        res.status(500).send(error.sqlMessage || error.message);
+    if (error.errno === 1452) {
+      res.status(500).send("User Id is incorrect.");
+    } else {
+      res.status(500).send(error.sqlMessage || error.message);
     }
   }
 };

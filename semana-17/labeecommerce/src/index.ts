@@ -3,12 +3,12 @@ import cors from "cors";
 import { AddressInfo } from "net";
 import connection from "./connection";
 import { Request, Response } from "express";
-import { signupUser } from "./endpoints/signupUser"
-import { listUsers } from "./endpoints/listUsers"
-import { postNewProduct } from "./endpoints/postNewProduct"
-import { listProducts } from "./endpoints/listProducts"
-import { postRegisterPurchase } from "./endpoints/postRegisterPurchase"
-import { listPurchases } from "./endpoints/listPurchases"
+import { signupUser } from "./endpoints/signupUser";
+import { listUsers } from "./endpoints/listUsers";
+import { postNewProduct } from "./endpoints/postNewProduct";
+import { listProducts } from "./endpoints/listProducts";
+import { postRegisterPurchase } from "./endpoints/postRegisterPurchase";
+import { listPurchases } from "./endpoints/listPurchases";
 
 const app = express();
 
@@ -26,32 +26,24 @@ const server = app.listen(process.env.PORT || 3003, () => {
 
 // Get User List
 
-app.get("/users", listUsers)
-
+app.get("/users", listUsers);
 
 // Get Products List
 
-app.get("/products", listProducts)
+app.get("/products", listProducts);
 
 // Get Purchase List
 
-app.get("/users/:user_id/purchases", listPurchases)
-
-
+app.get("/users/:user_id/purchases", listPurchases);
 
 // POST User Account Creation
 
-app.post("/users", signupUser)
+app.post("/users", signupUser);
 
 // POST New Product
 
-app.post("/products", postNewProduct)
+app.post("/products", postNewProduct);
 
 // POST Register Purchase
 
-app.post("/purchases", postRegisterPurchase)
-
-
-
-
-
+app.post("/purchases", postRegisterPurchase);

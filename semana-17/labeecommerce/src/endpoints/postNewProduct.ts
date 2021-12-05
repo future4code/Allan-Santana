@@ -20,8 +20,6 @@ export const postNewProduct = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  console.log("entrou");
-
   try {
     const id = new Date().getTime();
     const { name, price, image_url }: product = req.body;
@@ -39,9 +37,12 @@ export const postNewProduct = async (
       throw new Error("Please, provide a image url.");
     }
 
-    let response = await tryToCreateNewProduct(id, name, Number(price), image_url);
-
-    console.log("resposta:", response);
+    let response = await tryToCreateNewProduct(
+      id,
+      name,
+      Number(price),
+      image_url
+    );
 
     if (response.affectedRows > 0) {
       res.status(200).send("Product successfuly registered!");

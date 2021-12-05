@@ -8,9 +8,6 @@ export default async function tryToCreateUser(
   email: string,
   password: string
 ): Promise<any> {
-
-  // console.log(user)
-
   const result = await connection.raw(`
     INSERT INTO labecommerce_users (id, name, email, password)
     VALUES ("${id}", "${name}", "${email}", "${password}");
@@ -23,9 +20,6 @@ export const signupUser = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-
-  console.log("entrou");
-
   try {
     const id = new Date().getTime();
     const { name, email, password }: user = req.body;
@@ -47,16 +41,13 @@ export const signupUser = async (
 
     let response = await tryToCreateUser(id, name, email, password);
 
-    console.log("resposta:", response)
-
-    if(response.affectedRows > 0){
+    if (response.affectedRows > 0) {
       res.status(200).send("User successfuly created!");
-    } else{
+    } else {
       throw new Error("Something has gone wrong.");
     }
-
-    } catch (error: any) {
-    console.log('erro', error);
+  } catch (error: any) {
+    console.log("erro", error);
     res.status(500).send(error.sqlMessage || error.message);
   }
 };
