@@ -8,6 +8,7 @@ import { listUsers } from "./endpoints/listUsers"
 import { postNewProduct } from "./endpoints/postNewProduct"
 import { listProducts } from "./endpoints/listProducts"
 import { postRegisterPurchase } from "./endpoints/postRegisterPurchase"
+import { listPurchases } from "./endpoints/listPurchases"
 
 const app = express();
 
@@ -31,6 +32,12 @@ app.get("/users", listUsers)
 // Get Products List
 
 app.get("/products", listProducts)
+
+// Get Purchase List
+
+app.get("/users/:user_id/purchases", listPurchases)
+
+
 
 // POST User Account Creation
 

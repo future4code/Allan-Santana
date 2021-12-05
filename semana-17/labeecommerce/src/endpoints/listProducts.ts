@@ -1,6 +1,5 @@
 import connection from "../connection";
 import { Request, Response } from "express";
-import { product } from "../types/types";
 
 export default async function getListOfProducts(): Promise<any> {
 

@@ -55,15 +55,15 @@ export const postRegisterPurchase = async (
     if(!price){
       throw new Error("Invalid product Id.");
     }
-    console.log("2131", price, typeof(price.price))
-    const total_price = price.price * quantity;
+    console.log("2131", quantity, typeof(quantity))
+    const total_price = price.price * Number(quantity);
 
     let response = await tryToRegisterPurchase(
       id,
       user_id,
       product_id,
       quantity,
-      total_price * quantity
+      total_price
     );
 
     console.log("resposta:", response);
