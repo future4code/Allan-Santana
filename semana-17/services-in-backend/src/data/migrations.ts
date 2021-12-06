@@ -1,5 +1,5 @@
-import { connection } from "./connection"
-import users from "./users.json"
+import { connection } from "./connection";
+import users from "./users.json";
 
 const printError = (error: any) => { console.log(error.sqlMessage || error.message) }
 

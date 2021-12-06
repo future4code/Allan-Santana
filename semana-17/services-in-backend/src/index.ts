@@ -1,10 +1,19 @@
-import dotenv from 'dotenv'
-import app from "./app"
-import createUser from './endpoints/createUser'
-import passRecovery from './endpoints/passRecovery'
-import { getAddressInfo } from './services/getAddressInfo'
-import { mailTransporter } from './services/mailTransporter'
+import dotenv from "dotenv";
+import app from "./app";
+import createUser from "./endpoints/createUser";
+import { getAddressInfo } from "./endpoints/getAddressInfo";
+import { sendEmail } from "./endpoints/sendEmail";
 
-dotenv.config()
+dotenv.config();
 
-app.post('/users/signup', createUser)
+// Criar Usuário
+
+app.post("/users/signup", createUser);
+
+// Conseguir Edenreço com CEP
+
+app.get("/CEP/:cep", getAddressInfo);
+
+// Enviar Email
+
+app.post("/sendemail", sendEmail);
